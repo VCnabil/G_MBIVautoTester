@@ -19,6 +19,15 @@ namespace G_MBIVautoTester._Globalz
         private string latestComplete_Validated_MessageBody = string.Empty;
         private string latestCompleteMessageExtratedCHecksum = string.Empty;
         public static MNGR_SERIAL Instance{get { return instance.Value; }}
+
+        public delegate void MessageReceivedHandler(string message);
+        public event MessageReceivedHandler MessageReceived;
+
+        protected virtual void OnMessageReceived(string message)
+        {
+            MessageReceived?.Invoke(message);
+        }
+
         private MNGR_SERIAL()
         {
             incomingDataBuffer = new StringBuilder();
@@ -84,7 +93,8 @@ namespace G_MBIVautoTester._Globalz
                 // Update the most recent message
                 mostRecentMessage = completeData;
                 // Log or process the complete message
-                EventsManagerLib.Call_LogConsole("success: "+completeData);
+              
+                //OnMessageReceived(mostRecentMessage);  // Fire the event
                 // Prepare for the next message
                 buffer = buffer.Substring(endIndex);
                 match = regex.Match(buffer);
@@ -95,18 +105,37 @@ namespace G_MBIVautoTester._Globalz
             {
                 lastCompleteMessage = mostRecentMessage;
 
+              
+
+
+
+
+
                 // Extract the message body and checksum
-                int index = mostRecentMessage.IndexOf("*");
-                if (index != -1 && mostRecentMessage.Length > index + 2)
+                int indexDollar = mostRecentMessage.IndexOf("$");//at index 1 
+                int index = mostRecentMessage.IndexOf("*");//at indesx 128
+               //EventsManagerLib.Call_LogConsole("2. Last complete message: " + mostRecentMessage + "has a $ at index: " + indexDollar + " and * at index: " + index);
+
+                if(indexDollar > 0 && index > indexDollar +1)
                 {
-                  string  _latestCompleteMessageBody = mostRecentMessage.Substring(0, index);
-                  string _latestCompleteMessageExtratedCHecksum = mostRecentMessage.Substring(index + 1, 2);
-                    bool isValid = Helpers.Vealidate_Checksum(_latestCompleteMessageBody, _latestCompleteMessageExtratedCHecksum);
-                    if (isValid)
+                    latestComplete_Validated_MessageBody = mostRecentMessage.Substring(indexDollar, index - indexDollar);
+                    latestCompleteMessageExtratedCHecksum = mostRecentMessage.Substring(index + 1);
+                  //  EventsManagerLib.Call_LogConsole("3. Last complete message body: " + latestComplete_Validated_MessageBody + " and checksum: " + latestCompleteMessageExtratedCHecksum);
+                    bool isChecksumValid =  Helpers.Vealidate_Checksum(latestComplete_Validated_MessageBody, latestCompleteMessageExtratedCHecksum);
+                    if(isChecksumValid)
                     {
-                        latestComplete_Validated_MessageBody = _latestCompleteMessageBody;
-                        latestCompleteMessageExtratedCHecksum = _latestCompleteMessageExtratedCHecksum;
+                   //     EventsManagerLib.Call_LogConsole("4. Last complete message: " + mostRecentMessage + " has a valid checksum");
+                        OnMessageReceived(latestComplete_Validated_MessageBody);
                     }
+                    else
+                    {
+                        EventsManagerLib.Call_LogConsole("4. Last complete message: " + mostRecentMessage + " has an invalid checksum");
+                    }
+
+                }
+                else
+                {
+                    EventsManagerLib.Call_LogConsole("4. Last complete message: " + mostRecentMessage + " has no $ or *");
                 }
             }
             // Keep the unprocessed part in the buffer

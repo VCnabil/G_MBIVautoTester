@@ -26,15 +26,15 @@ namespace G_MBIVautoTester._DataObjects
         int _ain15;
         int _ain16;
 
-        bool _gp0;
-        bool _gp1;
-        bool _gp2;
-        bool _gp3;
-        bool _gp4;
-        bool _gp5;
-        bool _gp6;
-        bool _gp7;
-        bool _apdi;
+        bool _gp0_sclutch;
+        bool _gp1_portAP;
+        bool _gp2_stbdAP;
+        bool _gp3_Dktr1;
+        bool _gp4_Dktr2;
+        bool _gp5_Xfer1;
+        bool _gp6_Xfer2;
+        bool _gp7_pclutch;
+        bool _apdi8;
 
         bool _mbiv_Serial_Fault;
         string _apInput;
@@ -396,64 +396,64 @@ namespace G_MBIVautoTester._DataObjects
             }
         }
 
-        public bool GP0
+        public bool GP0_sClutch
         {
-            get { return _gp0; }
-           private set { _gp0 = value; }
+            get { return _gp0_sclutch; }
+           private set { _gp0_sclutch = value; }
         }
-        public bool GP1
+        public bool GP1_AP1
         {
-            get { return _gp1; }
-            private set { _gp1 = value; }
+            get { return _gp1_portAP; }
+            private set { _gp1_portAP = value; }
         }
 
-        public bool GP2
+        public bool GP2_AP2
         {
-            get { return _gp2; }
-            private set { _gp2 = value; }
+            get { return _gp2_stbdAP; }
+            private set { _gp2_stbdAP = value; }
         }
-        public bool GP3
+        public bool GP3_Dktr1
         {
-            get { return _gp3; }
-            private set { _gp3 = value; }
+            get { return _gp3_Dktr1; }
+            private set { _gp3_Dktr1 = value; }
         }
-        public bool GP4
+        public bool GP4_DKtr2
         {
-            get { return _gp4; }
-            private set { _gp4 = value; }
+            get { return _gp4_Dktr2; }
+            private set { _gp4_Dktr2 = value; }
         }
-        public bool GP5
+        public bool GP5_Xfer1
         {
-            get { return _gp5; }
-            private set { _gp5 = value; }
+            get { return _gp5_Xfer1; }
+            private set { _gp5_Xfer1 = value; }
         }
-        public bool GP6
+        public bool GP6_Xfer2
         {
-            get { return _gp6; }
-            private set { _gp6 = value; }
+            get { return _gp6_Xfer2; }
+            private set { _gp6_Xfer2 = value; }
         }
-        public bool GP7
+        public bool GP7_pClutch
         {
-            get { return _gp7; }
-            private set { _gp7 = value; }
+            get { return _gp7_pclutch; }
+            private set { _gp7_pclutch = value; }
         }
-        public bool APDI
+        public bool APDI_bit8
         {
-            get { return _apdi; }
-            private set { _apdi = value; }
+            get { return _apdi8; }
+            private set { _apdi8 = value; }
         }
 
         public void SetGP_bools_18(int arg_18) {
         
-            _gp0 = (arg_18 & 0x01) == 0x01;
-            _gp1 = (arg_18 & 0x02) == 0x02;
-            _gp2 = (arg_18 & 0x04) == 0x04;
-            _gp3 = (arg_18 & 0x08) == 0x08;
-            _gp4 = (arg_18 & 0x10) == 0x10;
-            _gp5 = (arg_18 & 0x20) == 0x20;
-            _gp6 = (arg_18 & 0x40) == 0x40;
-            _gp7 = (arg_18 & 0x80) == 0x80;
-            _apdi = (arg_18 & 0x100) == 0x100;
+            _gp0_sclutch = (arg_18 & 0x01) == 0x01;
+            _gp1_portAP = (arg_18 & 0x02) == 0x02;
+            _gp2_stbdAP = (arg_18 & 0x04) == 0x04;
+            _gp3_Dktr1 = (arg_18 & 0x08) == 0x08;
+            _gp4_Dktr2 = (arg_18 & 0x10) == 0x10;
+            _gp5_Xfer1 = (arg_18 & 0x20) == 0x20;
+            _gp6_Xfer2 = (arg_18 & 0x40) == 0x40;
+            _gp7_pclutch = (arg_18 & 0x80) == 0x80;
+            _apdi8 = (arg_18 & 0x100) == 0x100;
         }
 
         public bool MBIV_Serial_Fault_19
@@ -625,9 +625,93 @@ namespace G_MBIVautoTester._DataObjects
             _sn_fault = (arg27 & 0x20) == 0x20;
         }
 
+
+        public void Update_FromCommaDelimitedString(string argBody) {
+            //the argBody  "$VCIA,1.11_Rev5712,4049,4062,4062,4063,4038,4037,4058,4054,4053,4056,4050,4041,4043,4056,4055,4063 ,511,1,6,26,23,46,32,25,23,63"
+            //split the string into an array of strings using the comma as the delimiter
+            string[] __split = argBody.Split(',');
+            //assign the values to the properties
+            _version = __split[1];
+            _ain1 = Convert.ToInt32(__split[2]);
+            _ain2 = Convert.ToInt32(__split[3]);
+            _ain3 = Convert.ToInt32(__split[4]);
+            _ain4 = Convert.ToInt32(__split[5]);
+            _ain5 = Convert.ToInt32(__split[6]);
+            _ain6 = Convert.ToInt32(__split[7]);
+            _ain7 = Convert.ToInt32(__split[8]);
+            _ain8 = Convert.ToInt32(__split[9]);
+            _ain9 = Convert.ToInt32(__split[10]);
+            _ain10 = Convert.ToInt32(__split[11]);
+            _ain11 = Convert.ToInt32(__split[12]);
+            _ain12 = Convert.ToInt32(__split[13]);
+            _ain13 = Convert.ToInt32(__split[14]);
+            _ain14 = Convert.ToInt32(__split[15]);
+            _ain15 = Convert.ToInt32(__split[16]);
+            _ain16 = Convert.ToInt32(__split[17]);
+
+            SetGP_bools_18(Convert.ToInt32(__split[18]));
+            _mbiv_Serial_Fault = Convert.ToInt32(__split[19]) == 1;
+            _apInput = __split[20];
+
+            _pnoz_FDBK = Convert.ToInt32(__split[21]);
+            _snoz_FDBK = Convert.ToInt32(__split[22]);
+            _pint_FDBK = Convert.ToInt32(__split[23]);
+            _sbuck_FDBK = Convert.ToInt32(__split[24]);
+            _pbuck_FDBK = Convert.ToInt32(__split[25]);
+            _sint_FDBK = Convert.ToInt32(__split[26]);
+
+            Set_boolFaults_27(Convert.ToInt32(__split[27]));
+    
+
+
+        }
         public DATA_RX()
         {
- 
+            _version = "";
+            _ain1 = 0;
+            _ain2 = 0;
+            _ain3 = 0;
+            _ain4 = 0;
+            _ain5 = 0;
+            _ain6 = 0;
+            _ain7 = 0;
+            _ain8 = 0;
+            _ain9 = 0;
+            _ain10 = 0;
+            _ain11 = 0;
+            _ain12 = 0;
+            _ain13 = 0;
+            _ain14 = 0;
+            _ain15 = 0;
+            _ain16 = 0;
+
+            _gp0_sclutch = false;
+            _gp1_portAP = false;
+            _gp2_stbdAP = false;
+            _gp3_Dktr1 = false;
+            _gp4_Dktr2 = false;
+            _gp5_Xfer1 = false;
+            _gp6_Xfer2 = false;
+            _gp7_pclutch = false;
+            _apdi8 = false;
+                
+            _mbiv_Serial_Fault = false;
+            _apInput = "6";
+
+            _pnoz_FDBK = 0;
+            _snoz_FDBK = 0;
+            _pint_FDBK = 0;
+            _sbuck_FDBK = 0;
+            _pbuck_FDBK = 0;
+            _sint_FDBK = 0;
+
+            _pb_fault = false;
+            _si_fault = false;
+            _pi_fault = false;
+            _sb_fault = false;
+            _pn_fault = false;
+            _sn_fault = false;
+
         }
         ~DATA_RX()
         {

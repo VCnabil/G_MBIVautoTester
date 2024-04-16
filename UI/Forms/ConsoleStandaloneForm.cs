@@ -24,8 +24,8 @@ namespace G_MBIVautoTester.UI.Forms
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            base.OnFormClosed(e);
             EventsManagerLib.OnLogConsoleEvent -= AddTextToConsole_withDirectAction;
+            base.OnFormClosed(e);
         }
 
         private void ClearConsole()
@@ -69,11 +69,19 @@ namespace G_MBIVautoTester.UI.Forms
             // Check if an invoke is required (if the call comes from a different thread)
             if (textBox_Display.InvokeRequired)
             {
+                if (textBox_Display.IsDisposed)
+                {
+                    return;
+                }
                 // Invoke AddTextToConsole itself to handle cross-thread operation.
                 textBox_Display.Invoke(new Action<string>(AddTextToConsole_withDirectAction), text);
             }
             else
             {
+                if (textBox_Display.IsDisposed)
+                {
+                    return;
+                }
                 _sb.AppendLine(text);
                 textBox_Display.Text = _sb.ToString();
             }

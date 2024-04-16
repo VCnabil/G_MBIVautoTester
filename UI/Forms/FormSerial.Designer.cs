@@ -83,7 +83,7 @@
             this.cb_Xfer1 = new System.Windows.Forms.CheckBox();
             this.cb_Xfer2 = new System.Windows.Forms.CheckBox();
             this.cb_Clutch1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.cb_Clutch2 = new System.Windows.Forms.CheckBox();
             this.lbl_E2 = new System.Windows.Forms.Label();
             this.tkb_E2 = new System.Windows.Forms.TrackBar();
             this.lbl_E1 = new System.Windows.Forms.Label();
@@ -108,6 +108,13 @@
             this.cb_cmd_diosafety_9 = new System.Windows.Forms.CheckBox();
             this.lbl_TX = new System.Windows.Forms.Label();
             this.lbl_RX = new System.Windows.Forms.Label();
+            this.lbl_version = new System.Windows.Forms.Label();
+            this.SINT_FDBK = new System.Windows.Forms.Label();
+            this.PINT_FDBK = new System.Windows.Forms.Label();
+            this.SBKT_FDBK = new System.Windows.Forms.Label();
+            this.PBKT_FDBK = new System.Windows.Forms.Label();
+            this.SNOZ_FDBK = new System.Windows.Forms.Label();
+            this.PNOZ_FDBK = new System.Windows.Forms.Label();
             this.GroupBox7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -637,9 +644,15 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.PINT_FDBK, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.SINT_FDBK, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.PNOZ_FDBK, 3, 1);
             this.tableLayoutPanel3.Controls.Add(this.label15, 4, 0);
-            this.tableLayoutPanel3.Controls.Add(this.checkBox2, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.cb_Clutch2, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.SBKT_FDBK, 3, 2);
             this.tableLayoutPanel3.Controls.Add(this.label16, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.SNOZ_FDBK, 3, 3);
+            this.tableLayoutPanel3.Controls.Add(this.PBKT_FDBK, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.label17, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.label18, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label19, 2, 0);
@@ -966,22 +979,22 @@
             this.cb_Clutch1.Text = "clutch 1";
             this.cb_Clutch1.UseVisualStyleBackColor = false;
             // 
-            // checkBox2
+            // cb_Clutch2
             // 
-            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.cb_Clutch2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Font = new System.Drawing.Font("Miriam Mono CLM", 6.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.Location = new System.Drawing.Point(2, 173);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(0);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(107, 65);
-            this.checkBox2.TabIndex = 301;
-            this.checkBox2.Text = "clutch 2";
-            this.checkBox2.UseVisualStyleBackColor = false;
+            this.cb_Clutch2.AutoSize = true;
+            this.cb_Clutch2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.cb_Clutch2.Enabled = false;
+            this.cb_Clutch2.Font = new System.Drawing.Font("Miriam Mono CLM", 6.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_Clutch2.Location = new System.Drawing.Point(2, 173);
+            this.cb_Clutch2.Margin = new System.Windows.Forms.Padding(0);
+            this.cb_Clutch2.Name = "cb_Clutch2";
+            this.cb_Clutch2.Size = new System.Drawing.Size(107, 65);
+            this.cb_Clutch2.TabIndex = 301;
+            this.cb_Clutch2.Text = "clutch 2";
+            this.cb_Clutch2.UseVisualStyleBackColor = false;
             // 
             // lbl_E2
             // 
@@ -1270,17 +1283,123 @@
             // lbl_RX
             // 
             this.lbl_RX.AutoSize = true;
-            this.lbl_RX.Location = new System.Drawing.Point(214, 691);
+            this.lbl_RX.Location = new System.Drawing.Point(83, 680);
             this.lbl_RX.Name = "lbl_RX";
             this.lbl_RX.Size = new System.Drawing.Size(30, 25);
             this.lbl_RX.TabIndex = 299;
             this.lbl_RX.Text = "rx";
+            // 
+            // lbl_version
+            // 
+            this.lbl_version.AutoSize = true;
+            this.lbl_version.Location = new System.Drawing.Point(68, 641);
+            this.lbl_version.Name = "lbl_version";
+            this.lbl_version.Size = new System.Drawing.Size(97, 25);
+            this.lbl_version.TabIndex = 300;
+            this.lbl_version.Text = "Version: ";
+            // 
+            // SINT_FDBK
+            // 
+            this.SINT_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SINT_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.SINT_FDBK, 2);
+            this.SINT_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SINT_FDBK.Location = new System.Drawing.Point(111, 99);
+            this.SINT_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.SINT_FDBK.Name = "SINT_FDBK";
+            this.SINT_FDBK.Size = new System.Drawing.Size(216, 72);
+            this.SINT_FDBK.TabIndex = 311;
+            this.SINT_FDBK.Text = "SINT";
+            this.SINT_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PINT_FDBK
+            // 
+            this.PINT_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PINT_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.PINT_FDBK, 2);
+            this.PINT_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PINT_FDBK.Location = new System.Drawing.Point(111, 35);
+            this.PINT_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.PINT_FDBK.Name = "PINT_FDBK";
+            this.PINT_FDBK.Size = new System.Drawing.Size(216, 62);
+            this.PINT_FDBK.TabIndex = 309;
+            this.PINT_FDBK.Text = "PINT";
+            this.PINT_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // SBKT_FDBK
+            // 
+            this.SBKT_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SBKT_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.SBKT_FDBK, 2);
+            this.SBKT_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SBKT_FDBK.Location = new System.Drawing.Point(329, 99);
+            this.SBKT_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.SBKT_FDBK.Name = "SBKT_FDBK";
+            this.SBKT_FDBK.Size = new System.Drawing.Size(219, 72);
+            this.SBKT_FDBK.TabIndex = 307;
+            this.SBKT_FDBK.Text = "SBKT";
+            this.SBKT_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PBKT_FDBK
+            // 
+            this.PBKT_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PBKT_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.PBKT_FDBK, 2);
+            this.PBKT_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PBKT_FDBK.Location = new System.Drawing.Point(111, 173);
+            this.PBKT_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.PBKT_FDBK.Name = "PBKT_FDBK";
+            this.PBKT_FDBK.Size = new System.Drawing.Size(216, 65);
+            this.PBKT_FDBK.TabIndex = 305;
+            this.PBKT_FDBK.Text = "PBKT";
+            this.PBKT_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // SNOZ_FDBK
+            // 
+            this.SNOZ_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SNOZ_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.SNOZ_FDBK, 2);
+            this.SNOZ_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SNOZ_FDBK.Location = new System.Drawing.Point(329, 173);
+            this.SNOZ_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.SNOZ_FDBK.Name = "SNOZ_FDBK";
+            this.SNOZ_FDBK.Size = new System.Drawing.Size(219, 65);
+            this.SNOZ_FDBK.TabIndex = 303;
+            this.SNOZ_FDBK.Text = "SNOZ";
+            this.SNOZ_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PNOZ_FDBK
+            // 
+            this.PNOZ_FDBK.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PNOZ_FDBK.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.PNOZ_FDBK, 2);
+            this.PNOZ_FDBK.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PNOZ_FDBK.Location = new System.Drawing.Point(329, 35);
+            this.PNOZ_FDBK.Margin = new System.Windows.Forms.Padding(0);
+            this.PNOZ_FDBK.Name = "PNOZ_FDBK";
+            this.PNOZ_FDBK.Size = new System.Drawing.Size(219, 62);
+            this.PNOZ_FDBK.TabIndex = 301;
+            this.PNOZ_FDBK.Text = "PNOZ";
+            this.PNOZ_FDBK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FormSerial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2477, 1573);
+            this.Controls.Add(this.lbl_version);
             this.Controls.Add(this.lbl_RX);
             this.Controls.Add(this.lbl_TX);
             this.Controls.Add(this.cb_cmd_diosafety_9);
@@ -1372,7 +1491,7 @@
         internal System.Windows.Forms.CheckBox cb_DKtr2;
         internal System.Windows.Forms.CheckBox cb_Xfer1;
         internal System.Windows.Forms.CheckBox cb_Xfer2;
-        internal System.Windows.Forms.CheckBox checkBox2;
+        internal System.Windows.Forms.CheckBox cb_Clutch2;
         internal System.Windows.Forms.CheckBox cb_Clutch1;
         private System.Windows.Forms.Label lbl_E2;
         private System.Windows.Forms.TrackBar tkb_E2;
@@ -1398,5 +1517,12 @@
         internal System.Windows.Forms.CheckBox cb_cmd_diosafety_9;
         private System.Windows.Forms.Label lbl_TX;
         private System.Windows.Forms.Label lbl_RX;
+        private System.Windows.Forms.Label lbl_version;
+        internal System.Windows.Forms.Label SINT_FDBK;
+        internal System.Windows.Forms.Label PINT_FDBK;
+        internal System.Windows.Forms.Label SBKT_FDBK;
+        internal System.Windows.Forms.Label PBKT_FDBK;
+        internal System.Windows.Forms.Label SNOZ_FDBK;
+        internal System.Windows.Forms.Label PNOZ_FDBK;
     }
 }
