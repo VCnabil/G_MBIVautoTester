@@ -103,6 +103,7 @@
     <Compile Include="_DataObjects\DATA_TX.cs" />
     <Compile Include="_Globalz\EventsManagerLib.cs" />
     <Compile Include="_Globalz\Helpers.cs" />
+    <Compile Include="_Globalz\MNGR_LABJAK.cs" />
     <Compile Include="_Globalz\MNGR_SERIAL.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

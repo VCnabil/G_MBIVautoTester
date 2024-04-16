@@ -47,6 +47,13 @@ namespace G_MBIVautoTester.UI.Forms
             tkb_E2.ValueChanged += new EventHandler(tkb_E2_ValueChanged);
 
 
+            lbl_MBSerialStatus.BackColor = Color.Salmon;
+            lbl_LabjackStatus.BackColor = Color.Salmon;
+            lbl_MBSerialStatus.Text = "COMM OFF";
+            lbl_LabjackStatus.Text = "Labjack OFF ";//lolz
+            lbl_MBSerialStatus.ForeColor = Color.White;
+            lbl_LabjackStatus.ForeColor = Color.White;
+
         }
 
         private void Instance_MessageReceived(string message)
@@ -156,6 +163,30 @@ namespace G_MBIVautoTester.UI.Forms
             PBKT_FDBK.Text = "PBKT:"+DATA_RX.PBKT_FDBK_25.ToString();
             SINT_FDBK.Text = "SINT:"+DATA_RX.SINT_FDBK_26.ToString();
 
+            if (MNGR_SERIAL.Instance.Get_CommIsOpen())
+            {
+                lbl_MBSerialStatus.BackColor = Color.SeaGreen;
+                lbl_MBSerialStatus.Text = "COMM ON";
+                lbl_MBSerialStatus.ForeColor = Color.Black;
+            }
+            else { 
+                lbl_MBSerialStatus.BackColor = Color.Salmon;
+                lbl_MBSerialStatus.Text = "COMM OFF";
+                lbl_MBSerialStatus.ForeColor = Color.White;
+            }
+
+            if(MNGR_LABJAK.Instance.GetIsOnBus())
+            {
+                lbl_LabjackStatus.BackColor = Color.SeaGreen;
+                lbl_LabjackStatus.Text = "Labjack ON";
+                lbl_LabjackStatus.ForeColor = Color.Black;
+            }
+            else
+            {
+                lbl_LabjackStatus.BackColor = Color.Salmon;
+                lbl_LabjackStatus.Text = "Labjack OFF";
+                lbl_LabjackStatus.ForeColor = Color.White;
+            }
 
         }
     }

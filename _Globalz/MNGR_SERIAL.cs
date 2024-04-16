@@ -148,6 +148,10 @@ namespace G_MBIVautoTester._Globalz
             return latestComplete_Validated_MessageBody;
         }
     
+        public bool Get_CommIsOpen()
+        {
+            return serialPort.IsOpen;
+        }
  
         public void WriteData(string data)
         {
