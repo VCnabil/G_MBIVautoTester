@@ -99,9 +99,10 @@
     <Compile Include="UI\Forms\FormSerial.Designer.cs">
       <DependentUpon>FormSerial.cs</DependentUpon>
     </Compile>
-    <Compile Include="_DataObjects\DATA_LABJAK_v1.cs" />
-    <Compile Include="_DataObjects\DATA_RX.cs" />
-    <Compile Include="_DataObjects\DATA_TX.cs" />
+    <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v1.cs" />
+    <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v2.cs" />
+    <Compile Include="_DataObjects\DataComm\DATA_RX.cs" />
+    <Compile Include="_DataObjects\DataComm\DATA_TX.cs" />
     <Compile Include="_Globalz\EventsManagerLib.cs" />
     <Compile Include="_Globalz\Helpers.cs" />
     <Compile Include="_Globalz\MNGR_LABJAK.cs" />

@@ -44,7 +44,7 @@ namespace G_MBIVautoTester._Globalz
             _valueAIN_1 = 0;
             isOnBus = false;
 
-            Init();
+            Initold2();
         }
         public bool GetIsOnBus()
         {
@@ -88,7 +88,7 @@ namespace G_MBIVautoTester._Globalz
         public void Init_dataObj(DATA_LABJAK_v1 argDataref) {
             _lbjkDataObj = argDataref;
         }
-        void Init() {
+        void Initold2() {
 
             isOnBus = false;
             LJM.OpenS("ANY", "ANY", "ANY", ref handle);
@@ -100,16 +100,18 @@ namespace G_MBIVautoTester._Globalz
             StringBuilder strBuilder_connectionInfo = new StringBuilder();
             strBuilder_connectionInfo.Append(Line_label1 + Line_label2 + Line_label3);
             string connectionInfo = strBuilder_connectionInfo.ToString();
+
+
+
+            /*
+             * 
+             *          
+             *          
+            
             int errorAddress = 0;
             int numFrames = 39;
-
-
-            /*  string[] names = new string[6] {
-                    "AIN0_NEGATIVE_CH", "AIN0_RANGE", "AIN0_RESOLUTION_INDEX",
-                    "AIN1_NEGATIVE_CH", "AIN1_RANGE", "AIN1_RESOLUTION_INDEX"};
-            
-             */
-            string[] names = new string[46]
+      
+            string[] names = new string[50]
             {
 
                     "AIN0_NEGATIVE_CH", "AIN0_RANGE", "AIN0_RESOLUTION_INDEX",
@@ -124,29 +126,27 @@ namespace G_MBIVautoTester._Globalz
                     "AIN9_NEGATIVE_CH", "AIN9_RANGE", "AIN9_RESOLUTION_INDEX",
                     "AIN10_NEGATIVE_CH", "AIN10_RANGE", "AIN10_RESOLUTION_INDEX",
                     "AIN11_NEGATIVE_CH", "AIN11_RANGE", "AIN11_RESOLUTION_INDEX",
-                    "AIN12_NEGATIVE_CH", "AIN12_RANGE", "AIN12_RESOLUTION_INDEX", "EIO0","EIO1","EIO2","EIO3","EIO4","EIO5","DAC0"
+                    "AIN12_NEGATIVE_CH", "AIN12_RANGE", "AIN12_RESOLUTION_INDEX", "EIO0","EIO1","EIO2","EIO3","EIO4","EIO5","DAC0","FIO0","FIO1","FIO2","FIO3"
             };
-            //double[] aValues = new double[6] {
-            //        199, 10, 0,
-            //        199, 10, 0 };
+ */
 
-            double[] aValues = new double[46]
-            {
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,
-                199, 10, 0,0,0,0,0,0,0,0
-            };
-            LJM.eWriteNames(handle, numFrames, names, aValues, ref errorAddress);
+            //double[] aValues = new double[50]
+            //{
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,
+            //    199, 10, 0,0,0,0,0,0,0,0,0,0,0,0
+            //};
+            // LJM.eWriteNames(handle, numFrames, names, aValues, ref errorAddress);
             isOnBus = true;
         }
         public void Update_dataObj_withAINdata()
@@ -166,10 +166,14 @@ namespace G_MBIVautoTester._Globalz
             qrg_EIO4onOff = _lbjkDataObj.Labjack_EIO4_Write;
             qrg_EIO5onOff = _lbjkDataObj.Labjack_EIO5_Write;
             qrg_DAC0 = _lbjkDataObj.Labjack_DAC0_Write;
-            string[] aNmesWrite = { "EIO2" , "EIO3", "EIO4", "EIO5" ,"DAC0"};
-            double[] aValuesWrite = { qrg_EIO2onOff, qrg_EIO3onOff, qrg_EIO4onOff, qrg_EIO5onOff , qrg_DAC0 };
+            double qrg_FIO0 = _lbjkDataObj.Labjack_FIO0_Write;
+            double qrg_FIO1 = _lbjkDataObj.Labjack_FIO1_Write;
+            double qrg_FIO2 = _lbjkDataObj.Labjack_FIO2_Write;
+            double qrg_FIO3 = _lbjkDataObj.Labjack_FIO3_Write;
+            string[] aNmesWrite = { "EIO2" , "EIO3", "EIO4", "EIO5" ,"DAC0", "FIO0", "FIO1", "FIO2", "FIO3" };
+            double[] aValuesWrite = { qrg_EIO2onOff, qrg_EIO3onOff, qrg_EIO4onOff, qrg_EIO5onOff , qrg_DAC0, qrg_FIO0, qrg_FIO1, qrg_FIO2, qrg_FIO3 };
             int errorAddress1 = 0;
-            LJM.eWriteNames(handle, 5, aNmesWrite, aValuesWrite, ref errorAddress1);
+            LJM.eWriteNames(handle, 9, aNmesWrite, aValuesWrite, ref errorAddress1);
 
 
 

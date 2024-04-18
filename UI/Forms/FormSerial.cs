@@ -18,6 +18,12 @@ namespace G_MBIVautoTester.UI.Forms
         DATA_RX DATA_RX;
         DATA_TX DATA_TX;
         DATA_LABJAK_v1 DATA_LABJAK;
+        private int direction = 1; // Direction of slider movement: 1 for forward, -1 for backward
+        private int currentRadioButton = 0; // Index of currently selected radio button
+        private int cycles = 0; // Count of complete back-and-forth cycles
+        private int maxCycles = 5; // Total cycles to perform for each radio button
+
+
         public FormSerial()
         {
 
@@ -60,139 +66,199 @@ namespace G_MBIVautoTester.UI.Forms
 
             tkb_DAC0.ValueChanged += new EventHandler(tkb_DAC0_ValueChanged);
 
-            radioButton1.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton2.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton3.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton4.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton5.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton6.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton7.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton8.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton9.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton10.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton11.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton12.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton13.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton14.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton15.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
-            radioButton16.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //cb_Xfer1.CheckedChanged += new EventHandler(cb_Command_changed);
+            //cb_Xfer2.CheckedChanged += new EventHandler(cb_Command_changed);
+            //cb_DKtr1.CheckedChanged += new EventHandler(cb_Command_changed);
+            //cb_DKtr2.CheckedChanged += new EventHandler(cb_Command_changed);
 
+            //radioButton1.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton2.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton3.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton4.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton5.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton6.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton7.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton8.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton9.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //rb7.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton11.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton12.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //radioButton13.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //rb2.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //rb0.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //rb1.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            //rb3.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+
+            rb0.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb1.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb2.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb4.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb5.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb6.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb7.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb8.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb9.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb10.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb11.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb12.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb13.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb14.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb15.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            rb16.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
 
         }
 
+        private void cb_Command_changed(object sender, EventArgs e)
+        {
+
+        }
+
+        bool muxbit0 = true;
+        bool muxbit1 = true;
+        bool muxbit2 = true;
+        bool muxbit3 = true;
         private void radioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked) { 
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = false;
+            if (rb15.Checked) {
+                muxbit0 = false;
+                muxbit1 = false;
+                muxbit2 = false;
+                muxbit3 = false;
+
+
+
+     
             }
-            if (radioButton2.Checked)
+            if (rb16.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = false;
+
+
+                muxbit0 = true;
+                muxbit1 = false;
+                muxbit2 = false;
+                muxbit3 = false;
             }
-            if (radioButton3.Checked)
+            if (rb14.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = false;
+
+                muxbit0 = false;
+                muxbit1 = true;
+                muxbit2 = false;
+                muxbit3 = false;
             }
-            if (radioButton4.Checked)
+            if (rb13.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = false;
+
+                muxbit0 = true;
+                muxbit1 = true;
+                muxbit2 = false;
+                muxbit3 = false;
             }
-            if (radioButton5.Checked)
+            if (rb12.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = false;
+
+
+                muxbit0 = false;
+                muxbit1 = false;
+                muxbit2 = true;
+                muxbit3 = false;
             }
-            if (radioButton6.Checked)
+            if (rb11.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = false;
+
+
+                muxbit0 = true;
+                muxbit1 = false;
+                muxbit2 = true;
+                muxbit3 = false;
             }
-            if (radioButton7.Checked)
+            if (rb10.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = false;
+
+                muxbit0 = false;
+                muxbit1 = true;
+                muxbit2 = true;
+                muxbit3 = false;
             }
-            if (radioButton8.Checked)
+            if (rb9.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = false;
+
+                muxbit0 = true;
+                muxbit1 = true;
+                muxbit2 = true;
+                muxbit3 = false;
             }
-            if (radioButton9.Checked)
+            if (rb8.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = true;
+
+
+                muxbit0 = false;
+                muxbit1 = false;
+                muxbit2 = false;
+                muxbit3 = true;
             }
-            if (radioButton10.Checked)
+            if (rb7.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = true;
+                muxbit0 = true;
+                muxbit1 = false;
+                muxbit2 = false;
+                muxbit3 = true;
             }
-            if (radioButton11.Checked)
+            if (rb6.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = true;
+
+                muxbit0 = false;
+                muxbit1 = true;
+                muxbit2 = false;
+                muxbit3 = true;
+
             }
-            if (radioButton12.Checked)
+            if (rb5.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = false;
-                cb_EIO5.Checked = true;
+  
+                muxbit0 = true;
+                muxbit1 = true;
+                muxbit2 = false;
+                muxbit3 = true;
             }
-            if (radioButton13.Checked)
+            if (rb4.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = true;
+
+                muxbit0 = false;
+                muxbit1 = false;
+                muxbit2 = true;
+                muxbit3 = true;
             }
-            if (radioButton14.Checked)
+            if (rb2.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = false;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = true;
+
+                muxbit0 = true;
+                muxbit1 = false;
+                muxbit2 = true;
+                muxbit3 = true;
             }
-            if (radioButton15.Checked)
+
+            if (rb1.Checked)
             {
-                cb_EIO2.Checked = true;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = true;
+                muxbit0 = false;
+                muxbit1 = true;
+                muxbit2 = true;
+                muxbit3 = true;
             }
-            if (radioButton16.Checked)
+
+            if (rb0.Checked)
             {
-                cb_EIO2.Checked = false;
-                cb_EIO3.Checked = true;
-                cb_EIO4.Checked = true;
-                cb_EIO5.Checked = true;
+
+                muxbit0 = true;
+                muxbit1 = true;
+                muxbit2 = true;
+                muxbit3 = true;
             }
+
+            cb_EIO2.Checked = muxbit0;
+            cb_EIO3.Checked = muxbit1;
+            cb_EIO4.Checked = muxbit2;
+            cb_EIO5.Checked = muxbit3;
         }
 
         private void tkb_DAC0_ValueChanged(object sender, EventArgs e)
@@ -206,14 +272,28 @@ namespace G_MBIVautoTester.UI.Forms
 
         private void Instance_MessageReceived(string message)
         {
-            if (InvokeRequired)
+            try
             {
-                Invoke(new Action(() => DisplayMessage(message)));
+                if (InvokeRequired)
+                {
+                    // Safely invoke the method using a lambda that checks if the form is still not disposed
+                    Invoke(new Action(() => {
+                        if (!this.IsDisposed)
+                            DisplayMessage(message);
+                    }));
+                }
+                else
+                {
+                    if (!this.IsDisposed)
+                        DisplayMessage(message);
+                }
             }
-            else
+            catch (ObjectDisposedException)
             {
-                DisplayMessage(message);
+                // Handle the case where the form or a control is disposed.
+                // This catch is just for extra safety and specific logging if needed.
             }
+  
         }
         private void DisplayMessage(string arg_dollaredBody)
         {
@@ -335,14 +415,33 @@ namespace G_MBIVautoTester.UI.Forms
                 lbl_LabjackStatus.Text = "Labjack OFF";
                 lbl_LabjackStatus.ForeColor = Color.White;
             }
-            DATA_LABJAK.Labjack_EIO2_Write = cb_EIO2.Checked ? 0 : 1;
-            DATA_LABJAK.Labjack_EIO3_Write = cb_EIO3.Checked ? 0 : 1;
-            DATA_LABJAK.Labjack_EIO4_Write = cb_EIO4.Checked ? 0 : 1;
-            DATA_LABJAK.Labjack_EIO5_Write = cb_EIO5.Checked ? 0 : 1;
+
+
+            //DATA_LABJAK.Labjack_EIO2_Write = cb_EIO2.Checked ? 1 : 0;
+            //DATA_LABJAK.Labjack_EIO3_Write = cb_EIO3.Checked ? 1 : 0;
+            //DATA_LABJAK.Labjack_EIO4_Write = cb_EIO4.Checked ? 1 : 0;
+            //DATA_LABJAK.Labjack_EIO5_Write = cb_EIO5.Checked ? 1 : 0;
+
+            DATA_LABJAK.Labjack_EIO2_Write = muxbit0 ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO3_Write = muxbit1 ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO4_Write = muxbit2 ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO5_Write = muxbit3 ? 0 : 1;
+
+
             double val = tkb_DAC0.Value;
             double Converted = val / 100;
             lbl_DAC0.Text = "DAC0: " + Converted.ToString();
             DATA_LABJAK.Labjack_DAC0_Write = Converted;
+
+
+            double xfer1Val = cb_xfer1CMD.Checked ? 1 : 0;
+            double xfer2Val = cb_xfer2CMD.Checked ? 1 : 0;
+            double dktr1Val = cb_DK1CMD.Checked ? 1 : 0;
+            double dktr2Val = cb_DK2CMD.Checked ? 1 : 0;
+            DATA_LABJAK.Labjack_FIO0_Write = xfer1Val;
+            DATA_LABJAK.Labjack_FIO1_Write = xfer2Val;
+            DATA_LABJAK.Labjack_FIO2_Write = dktr1Val;
+            DATA_LABJAK.Labjack_FIO3_Write = dktr2Val;
 
             MNGR_LABJAK.Instance.Update_dataObj_withAINdata();
             lbl_lbjk_0.Text = "ain0: " + DATA_LABJAK.Labjack_VoltsRead_0.ToString();
@@ -382,7 +481,19 @@ namespace G_MBIVautoTester.UI.Forms
                 lbl_LED2_EIO1.Text = "LED2 Actual Output: ff";
             }
 
+            if (DATA_LABJAK.Labjack_VoltsRead_0 < 5)
+            {
+                lbl_Alarm_AIN0.BackColor = Color.SeaGreen;
+                lbl_Alarm_AIN0.Text = "Alarm: ON";
+            }
+            else { 
+            
+                    lbl_Alarm_AIN0.BackColor = Color.Salmon;
+                lbl_Alarm_AIN0.Text = "Alarm: OFF";
+            }
          
         }
+
+
     }
 }

@@ -32,7 +32,10 @@ namespace G_MBIVautoTester._DataObjects
         double _labjack_EIO5_Write;
         double _labjack_DAC0_Write;
 
-   
+        double _labjack_FIO0_Write;
+        double _labjack_FIO1_Write;
+        double _labjack_FIO2_Write;
+        double _labjack_FIO3_Write;
         public double Labjack_VoltsRead_0
         {
             get { return _labjack_VoltsRead_0; }
@@ -148,6 +151,32 @@ namespace G_MBIVautoTester._DataObjects
             get { return _labjack_DAC0_Write; }
             set { _labjack_DAC0_Write = value; }
         }
+
+        public double Labjack_FIO0_Write
+        {
+            get { return _labjack_FIO0_Write; }
+            set { _labjack_FIO0_Write = value; }
+        }
+
+        public double Labjack_FIO1_Write
+        {
+            get { return _labjack_FIO1_Write; }
+            set { _labjack_FIO1_Write = value; }
+        }
+
+        public double Labjack_FIO2_Write
+        {
+            get { return _labjack_FIO2_Write; }
+            set { _labjack_FIO2_Write = value; }
+        }
+
+        public double Labjack_FIO3_Write
+        {
+            get { return _labjack_FIO3_Write; }
+            set { _labjack_FIO3_Write = value; }
+        }   
+
+
         public DATA_LABJAK_v1() { 
             _labjack_VoltsRead_0 = 0;
             _labjack_VoltsRead_1 = 0;
@@ -166,10 +195,16 @@ namespace G_MBIVautoTester._DataObjects
             _labjack_EIO0_Read = 0;
             _labjack_EIO1_Read = 0;
             _labjack_EIO2_Write = 0;
-            _labjack_EIO3_Write = 0;
-            _labjack_EIO4_Write = 0;
-            _labjack_EIO5_Write = 0;
+            _labjack_EIO3_Write = 1;
+            _labjack_EIO4_Write = 1;
+            _labjack_EIO5_Write = 1;
             _labjack_DAC0_Write = 0;
+
+            _labjack_FIO0_Write = 0;
+            _labjack_FIO1_Write = 0;
+            _labjack_FIO2_Write = 0;
+            _labjack_FIO3_Write = 0;
+
                 
         
         }
