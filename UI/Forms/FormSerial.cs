@@ -17,11 +17,13 @@ namespace G_MBIVautoTester.UI.Forms
     {
         DATA_RX DATA_RX;
         DATA_TX DATA_TX;
+        DATA_LABJAK_v1 DATA_LABJAK;
         public FormSerial()
         {
 
             DATA_RX = new DATA_RX();
             DATA_TX = new DATA_TX();
+            DATA_LABJAK = new DATA_LABJAK_v1();
 
             InitializeComponent();
             ConsoleStandaloneForm console = new ConsoleStandaloneForm();
@@ -31,6 +33,8 @@ namespace G_MBIVautoTester.UI.Forms
             MNGR_SERIAL.Instance.OpenPortDefault();
             MNGR_SERIAL.Instance.MessageReceived += Instance_MessageReceived;
             SERIAL_TIMER.Start();
+
+            MNGR_LABJAK.Instance.Init_dataObj(DATA_LABJAK);
 
             cb_cmdDiO_0_led1.CheckedChanged += new EventHandler(a_Dio_cmd_CheckChanged);
             cb_cmdDiO_1_led2.CheckedChanged += new EventHandler(a_Dio_cmd_CheckChanged);
@@ -53,6 +57,150 @@ namespace G_MBIVautoTester.UI.Forms
             lbl_LabjackStatus.Text = "Labjack OFF ";//lolz
             lbl_MBSerialStatus.ForeColor = Color.White;
             lbl_LabjackStatus.ForeColor = Color.White;
+
+            tkb_DAC0.ValueChanged += new EventHandler(tkb_DAC0_ValueChanged);
+
+            radioButton1.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton2.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton3.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton4.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton5.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton6.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton7.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton8.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton9.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton10.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton11.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton12.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton13.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton14.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton15.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+            radioButton16.CheckedChanged += new EventHandler(radioButton_CheckedChanged);
+
+
+        }
+
+        private void radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked) { 
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton2.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton3.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton4.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton5.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton6.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton7.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton8.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = false;
+            }
+            if (radioButton9.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton10.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton11.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton12.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = false;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton13.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton14.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = false;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton15.Checked)
+            {
+                cb_EIO2.Checked = true;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = true;
+            }
+            if (radioButton16.Checked)
+            {
+                cb_EIO2.Checked = false;
+                cb_EIO3.Checked = true;
+                cb_EIO4.Checked = true;
+                cb_EIO5.Checked = true;
+            }
+        }
+
+        private void tkb_DAC0_ValueChanged(object sender, EventArgs e)
+        {
+            double val = tkb_DAC0.Value;
+            double Converted = val / 100;
+            lbl_DAC0.Text = "DAC0: " + Converted.ToString();
+            DATA_LABJAK.Labjack_DAC0_Write = Converted;
 
         }
 
@@ -187,7 +335,54 @@ namespace G_MBIVautoTester.UI.Forms
                 lbl_LabjackStatus.Text = "Labjack OFF";
                 lbl_LabjackStatus.ForeColor = Color.White;
             }
+            DATA_LABJAK.Labjack_EIO2_Write = cb_EIO2.Checked ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO3_Write = cb_EIO3.Checked ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO4_Write = cb_EIO4.Checked ? 0 : 1;
+            DATA_LABJAK.Labjack_EIO5_Write = cb_EIO5.Checked ? 0 : 1;
+            double val = tkb_DAC0.Value;
+            double Converted = val / 100;
+            lbl_DAC0.Text = "DAC0: " + Converted.ToString();
+            DATA_LABJAK.Labjack_DAC0_Write = Converted;
 
+            MNGR_LABJAK.Instance.Update_dataObj_withAINdata();
+            lbl_lbjk_0.Text = "ain0: " + DATA_LABJAK.Labjack_VoltsRead_0.ToString();
+            lbl_lbjk_1.Text = "ain1: " + DATA_LABJAK.Labjack_VoltsRead_1.ToString();
+            lbl_lbjk_2.Text = "ain2: " + DATA_LABJAK.Labjack_VoltsRead_2.ToString();
+            lbl_lbjk_3.Text = "ain3: " + DATA_LABJAK.Labjack_VoltsRead_3.ToString();
+            lbl_lbjk_4.Text = "ain4: " + DATA_LABJAK.Labjack_VoltsRead_4.ToString();
+            lbl_lbjk_5.Text = "ain5: " + DATA_LABJAK.Labjack_VoltsRead_5.ToString();
+            lbl_lbjk_6.Text = "ain6: " + DATA_LABJAK.Labjack_VoltsRead_6.ToString();
+            lbl_lbjk_7.Text = "ain7: " + DATA_LABJAK.Labjack_VoltsRead_7.ToString();
+            lbl_lbjk_8.Text = "ain8: " + DATA_LABJAK.Labjack_VoltsRead_8.ToString();
+            lbl_lbjk_9.Text = "ain9: " + DATA_LABJAK.Labjack_VoltsRead_9.ToString();
+            lbl_lbjk_10.Text = "ain10: " + DATA_LABJAK.Labjack_VoltsRead_10.ToString();
+            lbl_lbjk_11.Text = "ain11: " + DATA_LABJAK.Labjack_VoltsRead_11.ToString();
+            lbl_lbjk_12.Text = "ain12: " + DATA_LABJAK.Labjack_VoltsRead_12.ToString();
+
+
+            if(DATA_LABJAK.Labjack_EIO0_Read == 0)
+            {
+                lbl_LED1_EIO0.BackColor = Color.SeaGreen;
+                lbl_LED1_EIO0.Text = "LED1 Actual Output: ON";
+            }
+            else
+            {
+                lbl_LED1_EIO0.BackColor = Color.Salmon;
+                lbl_LED1_EIO0.Text = "LED1 Actual Output: ff";
+            }
+            
+            if (DATA_LABJAK.Labjack_EIO1_Read == 0)
+            {
+                lbl_LED2_EIO1.BackColor = Color.SeaGreen;
+                lbl_LED2_EIO1.Text = "LED2 Actual Output: ON";
+            }
+            else
+            {
+                lbl_LED2_EIO1.BackColor = Color.Salmon;
+                lbl_LED2_EIO1.Text = "LED2 Actual Output: ff";
+            }
+
+         
         }
     }
 }
