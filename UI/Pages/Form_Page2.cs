@@ -1,4 +1,6 @@
-﻿using System;
+﻿using G_MBIVautoTester._DataObjects.DataComm;
+using G_MBIVautoTester.UI.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,16 +24,28 @@ namespace G_MBIVautoTester.UI.Pages
         int minValue, maxValue;
         bool isTesting = false;
         Random random = new Random();
+        Label[] floatingColumn;
+        int indexFloating = 16;
+        int _minFloating , _maxFloating;
 
+        data_minmaxRow[] data_Minmaxes;
 
         public Form_Page2()
         {
             InitializeComponent();
+            ConsoleStandaloneForm console = new ConsoleStandaloneForm();
+            console.Show();
             SetupControls();
         }
 
         private void SetupControls()
         {
+            data_Minmaxes = new data_minmaxRow[17];
+            for (int i = 0; i < data_Minmaxes.Length; i++)
+            {
+                data_Minmaxes[i] = new data_minmaxRow();
+            }
+
             Latest_updated_ADvalues = new Label[] { LBL_AD0, LBL_AD1, LBL_AD2, LBL_AD3, LBL_AD4, LBL_AD5 , LBL_AD6, LBL_AD7, LBL_AD8, LBL_AD9, lbl_AD10, lbl_AD11, lbl_AD12, lbl_AD13, lbl_AD14, lbl_AD15, lbl_AD16 };
 
             RBS_CUR_LEVEL_Columns = new RadioButton[] { rb_0_low, rb_1_mid, rb_2_high };
@@ -57,8 +71,8 @@ namespace G_MBIVautoTester.UI.Pages
                 { label_16_0, label_16_1, label_16_2 }
             };
             RBS_CUR_AD_Rows = new RadioButton[] { rb_NA, rb1, rb2, rb3, rb4 , rb5, rb6, rb7, rb8, rb9, rb10,rb11, rb12, rb13, rb14,rb15,rb16};
+            floatingColumn = new Label[] { label_0_3, label_1_3, label_2_3, label_3_3, label_4_3, label_5_3, label_6_3, label_7_3, label_8_3, label_9_3, label_10_3, label_11_3, label_12_3, label_13_3, label_14_3, label_15_3, label_16_3 };  
 
-          //  rb_Default.Checked = true;
 
             // Setting up timers
             timer1_main.Interval = 500;  // Each test phase lasts 2 seconds
@@ -84,6 +98,9 @@ namespace G_MBIVautoTester.UI.Pages
             // Stop collecting data and update UI with results
             timer2_Secondary.Stop();
             _labels2D_minmax[_curIndx_Row_Y, _curIndx_Column_X].Text = $"Min-Max: {minValue}-{maxValue}";
+            data_Minmaxes[_curIndx_Row_Y].Set_row_minmax(_curIndx_Column_X, minValue, maxValue);
+            floatingColumn[indexFloating].Text = $"Min-Max: {_minFloating}-{_maxFloating}";
+            data_Minmaxes[indexFloating].Set_row_minmax(3, _minFloating, _maxFloating);
             MoveToNextTest();
         }
 
@@ -93,22 +110,32 @@ namespace G_MBIVautoTester.UI.Pages
             Latest_updated_ADvalues[_curIndx_Row_Y].Text = simulatedValue.ToString();
             minValue = Math.Min(minValue, simulatedValue);
             maxValue = Math.Max(maxValue, simulatedValue);
+
+
+            int simulated_floatingValue = Mock_GET_Floating_Value(indexFloating);
+            floatingColumn[indexFloating].Text = simulated_floatingValue.ToString();
+            _minFloating = Math.Min(_minFloating, simulated_floatingValue);
+            _maxFloating = Math.Max(_maxFloating, simulated_floatingValue);
         }
 
         private void MoveToNextTest()
         {
 
-
-
             _curIndx_Column_X += 1;
-
             // Check if the current row's columns are exhausted
             if (_curIndx_Column_X >= RBS_CUR_LEVEL_Columns.Length)
             {
+
+                indexFloating += 1;
+                if (indexFloating >= floatingColumn.Length)
+                {
+                    indexFloating = 1;
+                }
+
+
                 // Reset column index and move to the next row
                 _curIndx_Column_X = 0;
                 _curIndx_Row_Y += 1;
-
                 // Check if all rows are completed
                 if (_curIndx_Row_Y >= RBS_CUR_AD_Rows.Length)
                 {
@@ -132,6 +159,8 @@ namespace G_MBIVautoTester.UI.Pages
             minValue = int.MaxValue;
             maxValue = int.MinValue;
              
+            _minFloating = int.MaxValue;
+            _maxFloating = int.MinValue;
 
             // Start collecting data samples
             timer2_Secondary.Start();
@@ -145,6 +174,18 @@ namespace G_MBIVautoTester.UI.Pages
             timer2_Secondary.Stop();
             btn_startTst.BackColor = SystemColors.Control;
             isTesting = false;
+
+
+            // Display the min-max values for each row
+            if (data_Minmaxes != null) {
+                if (data_Minmaxes.Length > 0) {
+                    for (int r = 0; r < data_Minmaxes.Length; r++) {
+                        data_Minmaxes[r].DOPRINTMYVALUES();
+                    }
+                
+                }
+            
+            }
         }
 
         private void BtnStartTest_Click(object sender, EventArgs e)
@@ -167,7 +208,10 @@ namespace G_MBIVautoTester.UI.Pages
         {
             return random.Next(0, 100);  // Return a simulated sensor value
         }
-
+        int Mock_GET_Floating_Value(int rowIndex)
+        {
+            return random.Next(4000, 4095);  // Return a simulated sensor value
+        }
 
     }
 }

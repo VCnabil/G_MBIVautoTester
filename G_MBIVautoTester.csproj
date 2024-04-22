@@ -119,6 +119,9 @@
     </Compile>
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v1.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v2.cs" />
+    <Compile Include="_DataObjects\DataComm\data_minmax.cs" />
+    <Compile Include="_DataObjects\DataComm\data_minmaxRow.cs" />
+    <Compile Include="_DataObjects\DataComm\data_minmaxUBER.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_RX.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_TX.cs" />
     <Compile Include="_DataObjects\DataTestReport\DATA_TESTREPORT.cs" />
