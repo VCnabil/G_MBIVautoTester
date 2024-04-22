@@ -32,13 +32,14 @@ namespace G_MBIVautoTester.UI.Forms
             DATA_LABJAK = new DATA_LABJAK_v1();
 
             InitializeComponent();
+
             ConsoleStandaloneForm console = new ConsoleStandaloneForm();
             console.Show();
-            SERIAL_TIMER.Interval =100;
-            SERIAL_TIMER.Tick += SERIAL_TIMER_Tick;
+            SERIAL_TIMER_FormSerial.Interval =100;
+            SERIAL_TIMER_FormSerial.Tick += SERIAL_TIMER_Tick;
             MNGR_SERIAL.Instance.OpenPortDefault();
             MNGR_SERIAL.Instance.MessageReceived += Instance_MessageReceived;
-            SERIAL_TIMER.Start();
+            SERIAL_TIMER_FormSerial.Start();
 
             MNGR_LABJAK.Instance.Init_dataObj(DATA_LABJAK);
 
@@ -293,7 +294,6 @@ namespace G_MBIVautoTester.UI.Forms
                 // Handle the case where the form or a control is disposed.
                 // This catch is just for extra safety and specific logging if needed.
             }
-  
         }
         private void DisplayMessage(string arg_dollaredBody)
         {
@@ -444,7 +444,7 @@ namespace G_MBIVautoTester.UI.Forms
             DATA_LABJAK.Labjack_FIO3_Write = dktr2Val;
 
             MNGR_LABJAK.Instance.Update_dataObj_withAINdata();
-            lbl_lbjk_0.Text = "ain0: " + DATA_LABJAK.Labjack_VoltsRead_0.ToString();
+            lbl_lbjk_0.Text = "ain0: " + DATA_LABJAK.Lbjk_VoltsRead_0_alarm.ToString();
             lbl_lbjk_1.Text = "ain1: " + DATA_LABJAK.Labjack_VoltsRead_1.ToString();
             lbl_lbjk_2.Text = "ain2: " + DATA_LABJAK.Labjack_VoltsRead_2.ToString();
             lbl_lbjk_3.Text = "ain3: " + DATA_LABJAK.Labjack_VoltsRead_3.ToString();
@@ -459,7 +459,7 @@ namespace G_MBIVautoTester.UI.Forms
             lbl_lbjk_12.Text = "ain12: " + DATA_LABJAK.Labjack_VoltsRead_12.ToString();
 
 
-            if(DATA_LABJAK.Labjack_EIO0_Read == 0)
+            if(DATA_LABJAK.Lbjk_EIO0_Read_led1 == 0)
             {
                 lbl_LED1_EIO0.BackColor = Color.SeaGreen;
                 lbl_LED1_EIO0.Text = "LED1 Actual Output: ON";
@@ -470,7 +470,7 @@ namespace G_MBIVautoTester.UI.Forms
                 lbl_LED1_EIO0.Text = "LED1 Actual Output: ff";
             }
             
-            if (DATA_LABJAK.Labjack_EIO1_Read == 0)
+            if (DATA_LABJAK.Lbjk_EIO1_Read_led2 == 0)
             {
                 lbl_LED2_EIO1.BackColor = Color.SeaGreen;
                 lbl_LED2_EIO1.Text = "LED2 Actual Output: ON";
@@ -481,7 +481,7 @@ namespace G_MBIVautoTester.UI.Forms
                 lbl_LED2_EIO1.Text = "LED2 Actual Output: ff";
             }
 
-            if (DATA_LABJAK.Labjack_VoltsRead_0 < 5)
+            if (DATA_LABJAK.Lbjk_VoltsRead_0_alarm < 5)
             {
                 lbl_Alarm_AIN0.BackColor = Color.SeaGreen;
                 lbl_Alarm_AIN0.Text = "Alarm: ON";

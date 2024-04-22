@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.SERIAL_TIMER = new System.Windows.Forms.Timer(this.components);
             this.GroupBox7 = new System.Windows.Forms.GroupBox();
             this.cb_cmdDiO_2_alarm = new System.Windows.Forms.CheckBox();
             this.cb_cmdDiO_1_led2 = new System.Windows.Forms.CheckBox();
@@ -163,7 +162,7 @@
             this.cb_DK1CMD = new System.Windows.Forms.CheckBox();
             this.cb_DK2CMD = new System.Windows.Forms.CheckBox();
             this.lbl_Alarm_AIN0 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SERIAL_TIMER_FormSerial = new System.Windows.Forms.Timer(this.components);
             this.GroupBox7.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -1949,7 +1948,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2477, 1573);
+            this.ClientSize = new System.Drawing.Size(2558, 1573);
             this.Controls.Add(this.lbl_Alarm_AIN0);
             this.Controls.Add(this.cb_DK2CMD);
             this.Controls.Add(this.cb_DK1CMD);
@@ -2022,8 +2021,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer SERIAL_TIMER;
         internal System.Windows.Forms.GroupBox GroupBox7;
         internal System.Windows.Forms.CheckBox cb_cmdDiO_2_alarm;
         internal System.Windows.Forms.CheckBox cb_cmdDiO_1_led2;
@@ -2157,6 +2154,6 @@
         internal System.Windows.Forms.CheckBox cb_DK1CMD;
         internal System.Windows.Forms.CheckBox cb_DK2CMD;
         private System.Windows.Forms.Label lbl_Alarm_AIN0;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer SERIAL_TIMER_FormSerial;
     }
 }

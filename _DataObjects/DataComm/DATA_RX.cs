@@ -626,6 +626,8 @@ namespace G_MBIVautoTester._DataObjects
         }
 
 
+ 
+        
         public void Update_FromCommaDelimitedString(string argBody) {
             //the argBody  "$VCIA,1.11_Rev5712,4049,4062,4062,4063,4038,4037,4058,4054,4053,4056,4050,4041,4043,4056,4055,4063 ,511,1,6,26,23,46,32,25,23,63"
             //split the string into an array of strings using the comma as the delimiter
@@ -664,6 +666,51 @@ namespace G_MBIVautoTester._DataObjects
     
 
 
+        }
+
+
+
+       public int Get_Stored_AINVal(int cur_auto_channelIndex)
+        {
+            switch (cur_auto_channelIndex)
+            {
+                case 0:
+                    return -1;
+                case 1:
+                    return  AIN1;
+                case 2:
+                    return  AIN2;
+                case 3:
+                    return  AIN3;
+                case 4:
+                    return  AIN4;
+                case 5:
+                    return  AIN5;
+                case 6:
+                    return  AIN6;
+                case 7:
+                    return  AIN7;
+                case 8:
+                    return  AIN8;
+                case 9:
+                    return  AIN9;
+                case 10:
+                    return  AIN10;
+                case 11:
+                    return  AIN11;
+                case 12:
+                    return  AIN12;
+                case 13:
+                    return  AIN13;
+                case 14:
+                    return  AIN14;
+                case 15:
+                    return  AIN15;
+                case 16:
+                    return  AIN16;
+                default:
+                    return AIN1;
+            }
         }
         public DATA_RX()
         {

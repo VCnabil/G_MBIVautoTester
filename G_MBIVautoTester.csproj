@@ -99,10 +99,29 @@
     <Compile Include="UI\Forms\FormSerial.Designer.cs">
       <DependentUpon>FormSerial.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\Form_Page1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page1.Designer.cs">
+      <DependentUpon>Form_Page1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page2.Designer.cs">
+      <DependentUpon>Form_Page2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page3.Designer.cs">
+      <DependentUpon>Form_Page3.cs</DependentUpon>
+    </Compile>
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v1.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v2.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_RX.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_TX.cs" />
+    <Compile Include="_DataObjects\DataTestReport\DATA_TESTREPORT.cs" />
     <Compile Include="_Globalz\EventsManagerLib.cs" />
     <Compile Include="_Globalz\Helpers.cs" />
     <Compile Include="_Globalz\MNGR_LABJAK.cs" />
@@ -118,6 +137,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UI\Forms\Basic_Test_Screen.resx">
       <DependentUpon>Basic_Test_Screen.cs</DependentUpon>
@@ -128,6 +148,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\FormSerial.resx">
       <DependentUpon>FormSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Pages\Form_Page1.resx">
+      <DependentUpon>Form_Page1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Pages\Form_Page2.resx">
+      <DependentUpon>Form_Page2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Pages\Form_Page3.resx">
+      <DependentUpon>Form_Page3.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -142,6 +171,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="MY_Resources\Images\JumpersSlides\MBIV_Slide_Jumpers1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using G_MBIVautoTester.UI.Forms;
+using G_MBIVautoTester.UI.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,11 @@ namespace G_MBIVautoTester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-           // Application.Run(new Basic_Test_Screen());
-              Application.Run(new FormSerial());
+            // Application.Run(new Basic_Test_Screen());
+            //   Application.Run(new FormSerial());
+            //  Application.Run(new Form1());
+            Application.Run(new Form_Page2());
+
         }
     }
 }

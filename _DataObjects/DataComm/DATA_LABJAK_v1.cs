@@ -36,7 +36,7 @@ namespace G_MBIVautoTester._DataObjects
         double _labjack_FIO1_Write;
         double _labjack_FIO2_Write;
         double _labjack_FIO3_Write;
-        public double Labjack_VoltsRead_0
+        public double Lbjk_VoltsRead_0_alarm
         {
             get { return _labjack_VoltsRead_0; }
             set { _labjack_VoltsRead_0 = value; }
@@ -115,12 +115,12 @@ namespace G_MBIVautoTester._DataObjects
         //    set { _labjack_VoltsRead_13 = value; }
         //}
 
-        public double Labjack_EIO0_Read
+        public double Lbjk_EIO0_Read_led1
         {
             get { return _labjack_EIO0_Read; }
             set { _labjack_EIO0_Read = value; }
         }
-        public double Labjack_EIO1_Read
+        public double Lbjk_EIO1_Read_led2
         {
             get { return _labjack_EIO1_Read; }
             set { _labjack_EIO1_Read = value; }

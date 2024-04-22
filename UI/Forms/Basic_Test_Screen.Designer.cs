@@ -190,8 +190,6 @@
             this.Label18 = new System.Windows.Forms.Label();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
             this.RadioButton1 = new System.Windows.Forms.RadioButton();
-            this.Timer2 = new System.Windows.Forms.Timer(this.components);
-            this.Timer1 = new System.Windows.Forms.Timer(this.components);
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.Ain14 = new System.Windows.Forms.TextBox();
             this.Label32 = new System.Windows.Forms.Label();
@@ -251,6 +249,8 @@
             this.GroupBox6 = new System.Windows.Forms.GroupBox();
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
             this.Button4_SendSingleCAN = new System.Windows.Forms.Button();
+            this.timer1_BasicTestScreen = new System.Windows.Forms.Timer(this.components);
+            this.timer2_BasicTestScreen = new System.Windows.Forms.Timer(this.components);
             this.GroupBox9.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Automated_Valve_Driver_Step)).BeginInit();
@@ -2019,15 +2019,6 @@
             this.RadioButton1.TabIndex = 182;
             this.RadioButton1.Text = "CAN Dongle Heartbeat";
             // 
-            // Timer2
-            // 
-            this.Timer2.Enabled = true;
-            this.Timer2.Interval = 150;
-            // 
-            // Timer1
-            // 
-            this.Timer1.Interval = 50;
-            // 
             // GroupBox3
             // 
             this.GroupBox3.Controls.Add(this.Button1_clearAIN);
@@ -2968,8 +2959,7 @@
         internal System.Windows.Forms.Label Label18;
         internal System.Windows.Forms.GroupBox GroupBox2;
         internal System.Windows.Forms.RadioButton RadioButton1;
-        internal System.Windows.Forms.Timer Timer2;
-        internal System.Windows.Forms.Timer Timer1;
+ 
         internal System.Windows.Forms.GroupBox GroupBox3;
         internal System.Windows.Forms.TextBox Ain14;
         internal System.Windows.Forms.Label Label32;
@@ -3029,5 +3019,7 @@
         internal System.Windows.Forms.GroupBox GroupBox6;
         internal System.Windows.Forms.GroupBox GroupBox4;
         internal System.Windows.Forms.Button Button4_SendSingleCAN;
+        private System.Windows.Forms.Timer timer1_BasicTestScreen;
+        private System.Windows.Forms.Timer timer2_BasicTestScreen;
     }
 }

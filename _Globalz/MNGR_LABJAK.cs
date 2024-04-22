@@ -149,6 +149,68 @@ namespace G_MBIVautoTester._Globalz
             // LJM.eWriteNames(handle, numFrames, names, aValues, ref errorAddress);
             isOnBus = true;
         }
+
+
+
+
+
+        public void WRITE_to_JACK()
+        {
+            if (!isOnBus)
+            {
+                return;
+            }
+
+            double qrg_EIO2onOff = 0;
+            double qrg_EIO3onOff = 0;
+            double qrg_EIO4onOff = 0;
+            double qrg_EIO5onOff = 0;
+            double qrg_DAC0 = 0;
+            qrg_EIO2onOff = _lbjkDataObj.Labjack_EIO2_Write;
+            qrg_EIO3onOff = _lbjkDataObj.Labjack_EIO3_Write;
+            qrg_EIO4onOff = _lbjkDataObj.Labjack_EIO4_Write;
+            qrg_EIO5onOff = _lbjkDataObj.Labjack_EIO5_Write;
+            qrg_DAC0 = _lbjkDataObj.Labjack_DAC0_Write;
+            double qrg_FIO0 = _lbjkDataObj.Labjack_FIO0_Write;
+            double qrg_FIO1 = _lbjkDataObj.Labjack_FIO1_Write;
+            double qrg_FIO2 = _lbjkDataObj.Labjack_FIO2_Write;
+            double qrg_FIO3 = _lbjkDataObj.Labjack_FIO3_Write;
+            string[] aNmesWrite = { "EIO2", "EIO3", "EIO4", "EIO5", "DAC0", "FIO0", "FIO1", "FIO2", "FIO3" };
+            double[] aValuesWrite = { qrg_EIO2onOff, qrg_EIO3onOff, qrg_EIO4onOff, qrg_EIO5onOff, qrg_DAC0, qrg_FIO0, qrg_FIO1, qrg_FIO2, qrg_FIO3 };
+            int errorAddress1 = 0;
+            LJM.eWriteNames(handle, 9, aNmesWrite, aValuesWrite, ref errorAddress1);
+
+
+
+
+        }
+
+        public void READ_from_JAck() {
+
+
+
+            string[] aNames = { "AIN0", "AIN1", "AIN2", "AIN3", "AIN4", "AIN5", "AIN6", "AIN7", "AIN8", "AIN9", "AIN10", "AIN11", "AIN12", "EIO0", "EIO1" };
+            double[] ainValues = new double[15];
+            int errorAddress = 0;
+            LJM.LJMERROR LJMError = LJM.eReadNames(handle, 15, aNames, ainValues, ref errorAddress);
+            _lbjkDataObj.Lbjk_VoltsRead_0_alarm = ainValues[0];
+            _lbjkDataObj.Labjack_VoltsRead_1 = ainValues[1];
+            _lbjkDataObj.Labjack_VoltsRead_2 = ainValues[2];
+            _lbjkDataObj.Labjack_VoltsRead_3 = ainValues[3];
+            _lbjkDataObj.Labjack_VoltsRead_4 = ainValues[4];
+            _lbjkDataObj.Labjack_VoltsRead_5 = ainValues[5];
+            _lbjkDataObj.Labjack_VoltsRead_6 = ainValues[6];
+            _lbjkDataObj.Labjack_VoltsRead_7 = ainValues[7];
+            _lbjkDataObj.Labjack_VoltsRead_8 = ainValues[8];
+            _lbjkDataObj.Labjack_VoltsRead_9 = ainValues[9];
+            _lbjkDataObj.Labjack_VoltsRead_10 = ainValues[10];
+            _lbjkDataObj.Labjack_VoltsRead_11 = ainValues[11];
+            _lbjkDataObj.Labjack_VoltsRead_12 = ainValues[12];
+            _lbjkDataObj.Lbjk_EIO0_Read_led1 = ainValues[13];
+            _lbjkDataObj.Lbjk_EIO1_Read_led2 = ainValues[14];
+        }
+
+
         public void Update_dataObj_withAINdata()
         {
             if(!isOnBus)
@@ -181,7 +243,7 @@ namespace G_MBIVautoTester._Globalz
             double[] ainValues = new double[15];
             int errorAddress = 0;
             LJM.LJMERROR LJMError = LJM.eReadNames(handle, 15, aNames, ainValues, ref errorAddress);
-            _lbjkDataObj.Labjack_VoltsRead_0 = ainValues[0];
+            _lbjkDataObj.Lbjk_VoltsRead_0_alarm = ainValues[0];
             _lbjkDataObj.Labjack_VoltsRead_1 = ainValues[1];
             _lbjkDataObj.Labjack_VoltsRead_2 = ainValues[2];
             _lbjkDataObj.Labjack_VoltsRead_3 = ainValues[3];
@@ -194,8 +256,8 @@ namespace G_MBIVautoTester._Globalz
             _lbjkDataObj.Labjack_VoltsRead_10 = ainValues[10];
             _lbjkDataObj.Labjack_VoltsRead_11 = ainValues[11];
             _lbjkDataObj.Labjack_VoltsRead_12 = ainValues[12];
-            _lbjkDataObj.Labjack_EIO0_Read = ainValues[13];
-            _lbjkDataObj.Labjack_EIO1_Read = ainValues[14];
+            _lbjkDataObj.Lbjk_EIO0_Read_led1 = ainValues[13];
+            _lbjkDataObj.Lbjk_EIO1_Read_led2 = ainValues[14];
            
         }
         public void DO_ReadAIN_0_1(double argWrite0_5)

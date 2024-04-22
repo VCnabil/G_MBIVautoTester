@@ -121,7 +121,7 @@ namespace G_MBIVautoTester.UI.Forms
             Canlib.canStatus statusBusOn_hnd0 = Canlib.canBusOn(hnd0);
             Canlib.canStatus statusBusOn_hnd1 = Canlib.canBusOn(hnd1);
             Canlib.canSetNotify(hnd1, this.Handle, Canlib.canNOTIFY_RX);
-            Timer1.Enabled = true;
+          //  Timer1.Enabled = true;
             TX_PB_Cmd_Text.Text = "0";
             TX_PN_Cmd_Text.Text = "0";
             TX_PI_Cmd_Text.Text = "0";
@@ -167,16 +167,16 @@ namespace G_MBIVautoTester.UI.Forms
             S_Eng_Disable.CheckedChanged += S_Eng_Disable_CheckedChanged;
             Safety_Trip_ON.CheckedChanged += Safety_Trip_ON_CheckedChanged;
             Safety_Trip_OFF.CheckedChanged += Safety_Trip_OFF_CheckedChanged;
-            Timer1.Enabled = true;
-            Timer1.Interval = 300;
-            Timer2.Enabled = true;
-            Timer2.Interval = 350;
+            timer1_BasicTestScreen.Enabled = true;
+            timer1_BasicTestScreen.Interval = 300;
+            timer2_BasicTestScreen.Enabled = true;
+            timer2_BasicTestScreen.Interval = 350;
 
-            Timer1.Tick += Timer1_Tick;
-            Timer2.Tick += Timer2_Tick;
+            timer1_BasicTestScreen.Tick += Timer1_Tick;
+            timer2_BasicTestScreen.Tick += Timer2_Tick;
 
-            Timer1.Start();
-            Timer2.Start();
+            timer1_BasicTestScreen.Start();
+            timer2_BasicTestScreen.Start();
         }
         #region Button Click Events
         private void Button_0_Click(object sender, EventArgs e)
