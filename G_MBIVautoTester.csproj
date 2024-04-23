@@ -117,6 +117,12 @@
     <Compile Include="UI\Pages\Form_Page3.Designer.cs">
       <DependentUpon>Form_Page3.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\Form_Page4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Pages\Form_Page4.Designer.cs">
+      <DependentUpon>Form_Page4.cs</DependentUpon>
+    </Compile>
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v1.cs" />
     <Compile Include="_DataObjects\DataComm\DATA_LABJAK_v2.cs" />
     <Compile Include="_DataObjects\DataComm\data_minmax.cs" />
@@ -160,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Pages\Form_Page3.resx">
       <DependentUpon>Form_Page3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Pages\Form_Page4.resx">
+      <DependentUpon>Form_Page4.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

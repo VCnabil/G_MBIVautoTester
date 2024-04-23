@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using G_MBIVautoTester._DataObjects;
 using G_MBIVautoTester._DataObjects.DataComm;
+using System.Xml.Linq;
 
 namespace G_MBIVautoTester._Globalz
 {
@@ -116,7 +117,10 @@ namespace G_MBIVautoTester._Globalz
         }
 
 
-
+        public void READ_LABjackv2_AINS() {
+            int errorAddress = 0;
+            LJM.LJMERROR LJMError = LJM.eReadNames(handle, dATA_LABJAK_V2.Num_AINs, dATA_LABJAK_V2.AINs_names, dATA_LABJAK_V2.AINs_values, ref errorAddress);
+        }
         public void WRITE_to_JACKv2() {
             if (!isOnBus || dATA_LABJAK_V2 == null)
             {

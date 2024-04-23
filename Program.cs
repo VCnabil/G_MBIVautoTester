@@ -21,7 +21,7 @@ namespace G_MBIVautoTester
             // Application.Run(new Basic_Test_Screen());
             //   Application.Run(new FormSerial());
             //  Application.Run(new Form1());
-            Application.Run(new Form_Page3());
+            Application.Run(new Form_Page4());
 
         }
     }

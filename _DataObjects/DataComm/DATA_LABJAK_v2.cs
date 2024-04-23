@@ -66,8 +66,8 @@ namespace G_MBIVautoTester._DataObjects.DataComm
             AINs_names = new string[ConstAINs];
             AINs_names[0] = "AIN0";
             AINs_names[1] = "AIN1";
-            AINs_names[2] = "AIN2";
-            AINs_names[3] = "AIN3";
+            AINs_names[2] = "EIO0";
+            AINs_names[3] = "EIO1";
             //AINs_names[4] = "AIN4";
             //AINs_names[5] = "AIN5";
             //AINs_names[6] = "AIN6";

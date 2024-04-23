@@ -2000,7 +2000,7 @@
             this.groupBox2.Controls.Add(this.lbl_LED1_EIO0);
             this.groupBox2.Controls.Add(this.lbl_LED2_EIO1);
             this.groupBox2.Controls.Add(this.lbl_Alarm_AIN0);
-            this.groupBox2.Location = new System.Drawing.Point(1530, 187);
+            this.groupBox2.Location = new System.Drawing.Point(1475, 92);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(285, 1436);
             this.groupBox2.TabIndex = 451;
