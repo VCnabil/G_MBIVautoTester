@@ -1,4 +1,8 @@
-﻿using System;
+﻿using G_MBIVautoTester._DataObjects;
+using G_MBIVautoTester._DataObjects.DataComm;
+using G_MBIVautoTester._Globalz;
+using G_MBIVautoTester.UI.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,150 +16,501 @@ namespace G_MBIVautoTester.UI.Pages
 {
     public partial class Form_Page3 : Form
     {
-        // Initialization of controls and variables
-        Label[] Latest_updated_ADvalues;
-        RadioButton[] RBS_CUR_LEVEL_Columns;
-        Label[,] _labels2D_minmax;
-        RadioButton[] RBS_CUR_AD_Rows;
-        int _curIndx_Column_X = 0;
-        int _curIndx_Row_Y = 0;
-        int currentSample = 0;
-        int totalSamples = 100;  // Number of samples to take per setting
+
+        private System.Windows.Forms.Timer TimerTICKER_sendJackfast = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer TimerTICKER_readJackslow = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer timer_oneSecond = new System.Windows.Forms.Timer();
+        private System.Windows.Forms.Timer timer_powerLevelAdjustment = new System.Windows.Forms.Timer();
+
+        DATA_RX DATA_RX;
+        bool isConnected_Serial = false;
+        bool isConnected_Labjack = false;
+        DATA_LABJAK_v2 _MAINLabjackObj;
+        bool muxbit0 = true;
+        bool muxbit1 = true;
+        bool muxbit2 = true;
+        bool muxbit3 = true;
+        double _RAW_DACTOSEND = 0.0;
+
+
+        int sample_cnt = 0;
+        int MAXsamples = 10;
+
+        Label[] _lbls_ADOs;
+        int[] _ints_ADOS;
+
+        int _ACTIVEAIN = 1;
+        private DateTime lastReceivedTime = DateTime.MinValue;
+        private System.Windows.Forms.Timer timer_delay = new System.Windows.Forms.Timer();
+
+        private bool allowedToFilterMinMax = true;
         int minValue, maxValue;
-        bool isTesting = false;
-        Random random = new Random();
+        private int _ACTIVELEVEL = 0;
         public Form_Page3()
         {
             InitializeComponent();
-            SetupControls();
-        
-
-        }
-        private void SetupControls()
-        {
-            Latest_updated_ADvalues = new Label[] {  LBL_AD1, LBL_AD2, LBL_AD3, LBL_AD4, LBL_AD5 };
-         
-            RBS_CUR_LEVEL_Columns = new RadioButton[] { rb_0_low, rb_1_mid, rb_2_high };
-           
-            _labels2D_minmax = new Label[,]
-            {
-                { label_1_0, label_1_1, label_1_2 },
-                { label_2_0, label_2_1, label_2_2 },
-                { label_3_0, label_3_1, label_3_2 },
-                { label_4_0, label_4_1, label_4_2 },
-                { label_5_0, label_5_1, label_5_2 }
-            };
-            RBS_CUR_AD_Rows = new RadioButton[] { rb0, rb1, rb2, rb3, rb4 };
-
-            rb_Default.Checked = true;
-
-            // Setting up timers
-            timer1_main.Interval = 2000;  // Each test phase lasts 2 seconds
-            timer1_main.Tick += MainTimer_Tick;
-            timer2_Secondary.Interval = 100;  // Data sampling every 100 ms
-            timer2_Secondary.Tick += SecondaryTimer_Tick;
-
-            btn_startTst.Click += BtnStartTest_Click;
-
-            // Set the starting indices for rows and columns
-            _curIndx_Column_X = 0;
-            _curIndx_Row_Y = 1;
-
-            // Ensure the corresponding radio buttons are checked to reflect this start point
-            if (_curIndx_Row_Y < RBS_CUR_AD_Rows.Length)
-                RBS_CUR_AD_Rows[_curIndx_Row_Y].Checked = true;
-            if (_curIndx_Column_X < RBS_CUR_LEVEL_Columns.Length)
-                RBS_CUR_LEVEL_Columns[_curIndx_Column_X].Checked = true;
-        }
-
-        private void MainTimer_Tick(object sender, EventArgs e)
-        {
-            // Stop collecting data and update UI with results
-            timer2_Secondary.Stop();
-            _labels2D_minmax[_curIndx_Row_Y, _curIndx_Column_X].Text = $"Min-Max: {minValue}-{maxValue}";
-            MoveToNextTest();
-        }
-
-        private void SecondaryTimer_Tick(object sender, EventArgs e)
-        {
-            int simulatedValue = Mock_GET_AD_Value(_curIndx_Row_Y, _curIndx_Column_X);
-            Latest_updated_ADvalues[_curIndx_Row_Y].Text = simulatedValue.ToString();
-            minValue = Math.Min(minValue, simulatedValue);
-            maxValue = Math.Max(maxValue, simulatedValue);
-        }
-
-        private void MoveToNextTest()
-        {
-
-
-
-            _curIndx_Column_X += 1;
-
-            // Check if the current row's columns are exhausted
-            if (_curIndx_Column_X >= RBS_CUR_LEVEL_Columns.Length)
-            {
-                // Reset column index and move to the next row
-                _curIndx_Column_X = 0;
-                _curIndx_Row_Y += 1;
-
-                // Check if all rows are completed
-                if (_curIndx_Row_Y >= RBS_CUR_AD_Rows.Length)
-                {
-                    // All tests are complete, stop testing
-                    StopTesting();
-                    return;
-                }
-            }
-
-            // Start the next test
-            StartSingleTest();
-        }
-
-        private void StartSingleTest()
-        {
-            // Check the radio button for the current row first
-            RBS_CUR_AD_Rows[_curIndx_Row_Y].Checked = true;
-            RBS_CUR_LEVEL_Columns[_curIndx_Column_X].Checked = true;
-
-            // Reset min and max values for the new test
+   
             minValue = int.MaxValue;
             maxValue = int.MinValue;
-            currentSample = 0;
 
-            // Start collecting data samples
-            timer2_Secondary.Start();
-            // Start the test duration timer
-            timer1_main.Start();
-        }
+            ConsoleStandaloneForm console = new ConsoleStandaloneForm();
+            console.Show();
+            TimerTICKER_sendJackfast.Interval = 120;
+            TimerTICKER_sendJackfast.Tick += new EventHandler(TimerTICKER_TickSendFastLABJACK);
 
-        private void StopTesting()
-        {
-            timer1_main.Stop();
-            timer2_Secondary.Stop();
-            btn_startTst.BackColor = SystemColors.Control;
-            isTesting = false;
-        }
+            TimerTICKER_readJackslow.Interval = 320;
+            TimerTICKER_readJackslow.Tick += new EventHandler(TimerTICKER_TickReadSlowLABJACK);
+            timer_delay.Interval = 700;  // 700 ms
+            timer_delay.Tick += new EventHandler(timer_delay_Tick);
 
-        private void BtnStartTest_Click(object sender, EventArgs e)
-        {
-            if (!isTesting)
+            timer_oneSecond.Interval = 3000;
+            timer_oneSecond.Tick += new EventHandler(timer_oneSecond_Tick);
+
+            timer_powerLevelAdjustment.Interval = 500; // 500 ms for power level adjustment
+            timer_powerLevelAdjustment.Tick += new EventHandler(timer_powerLevelAdjustment_Tick);
+
+
+            DATA_RX = new DATA_RX();
+            _MAINLabjackObj = new DATA_LABJAK_v2();
+            _lbls_ADOs = new Label[] { LBL_AD0, LBL_AD1, LBL_AD2, LBL_AD3, LBL_AD4, LBL_AD5, LBL_AD6, LBL_AD7, LBL_AD8, LBL_AD9, lbl_AD10, lbl_AD11, lbl_AD12, lbl_AD13, lbl_AD14, lbl_AD15, lbl_AD16 };
+            _ints_ADOS = DATA_RX.GET_allAINS();
+            for (int i = 0; i < _lbls_ADOs.Length; i++)
             {
-                isTesting = true;
-                btn_startTst.BackColor = Color.Green;
-                _curIndx_Row_Y = 1;
-                _curIndx_Column_X = 0;
-                StartSingleTest();
+                _lbls_ADOs[i].Text = "AD"+i+": "+ _ints_ADOS[i].ToString();
+            }
+            btn_openSerial.Click += new EventHandler(btn_openSerial_Click);
+            btn_openLabjack.Click += new EventHandler(btn_openLabjack_Click);
+
+            MNGR_SERIAL.Instance.OpenPortDefault();
+            MNGR_SERIAL.Instance.MessageReceived += Instance_MessageReceived_serial;
+            isConnected_Serial = MNGR_SERIAL.Instance.Get_CommIsOpen();
+
+            if (isConnected_Serial)
+            {
+                btn_openSerial.Text = "Close it";
+              
             }
             else
             {
-                StopTesting();
+                btn_openSerial.Text = "Open it";
+            }
+
+            isConnected_Labjack = MNGR_LABJAK.Instance.GetIsOnBus();
+            if (isConnected_Labjack)
+            {
+                btn_openLabjack.Text = "turn off";
+            }
+            else
+            {
+                btn_openLabjack.Text = "turn on";
+            }
+            MNGR_LABJAK.Instance.Init_dataObj2(_MAINLabjackObj);
+            TimerTICKER_sendJackfast.Enabled = true;
+            TimerTICKER_sendJackfast.Start();
+
+            TimerTICKER_readJackslow.Enabled = true;
+            TimerTICKER_readJackslow.Start();
+
+
+            button1.Click += new EventHandler(button1_Click);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            StartProcess();
+        }
+
+        private void timer_powerLevelAdjustment_Tick(object sender, EventArgs e)
+        {
+            timer_powerLevelAdjustment.Stop(); // Stop the power level adjustment timer
+
+        }
+
+        private void timer_oneSecond_Tick(object sender, EventArgs e)
+        {
+            timer_oneSecond.Stop();
+        }
+
+        private void timer_delay_Tick(object sender, EventArgs e)
+        {
+            // Toggle the flag to allow buffer reading
+            allowedToFilterMinMax = true;
+            timer_delay.Stop();  // Stop the delay timer until it's needed again
+        }
+
+        private void TimerTICKER_TickSendFastLABJACK(object sender, EventArgs e)
+        {
+            _mustUpdate_ComAndLabjack_Status();
+
+            if (!isConnected_Labjack || !isConnected_Serial)
+            {
+                return;
+            }
+
+
+            _gatherAndSendDataToLabjack();
+
+
+        }
+        private void TimerTICKER_TickReadSlowLABJACK(object sender, EventArgs e)
+        {
+            if (allowedToFilterMinMax)
+            {
+                int value = _ints_ADOS[_ACTIVEAIN];
+                minValue = Math.Min(minValue, value);
+                maxValue = Math.Max(maxValue, value);
+            }
+        }
+        //private void StartProcess()
+        //{
+        //    for (int power = 0; power < 3; power++)  
+        //    {
+        //        _ACTIVELEVEL = power;
+        //        //   _RAW_DACTOSEND = 2.5;
+
+        //        if (power == 0)
+        //        {
+        //            _RAW_DACTOSEND = 0;
+        //        }
+        //        else if (power == 1)
+        //        {
+        //            _RAW_DACTOSEND = 2.5;
+        //        }
+        //        else
+        //            if (power == 2)
+        //        {
+        //            _RAW_DACTOSEND = 5.0;
+        //        }
+
+        //        timer_powerLevelAdjustment.Start(); 
+        //        while (timer_powerLevelAdjustment.Enabled) { Application.DoEvents(); }  
+        //        for (int i = 1; i < 17; i++)
+        //        {
+        //            _ACTIVEAIN = i;
+        //            timer_delay.Start();
+        //            while (timer_delay.Enabled) { Application.DoEvents(); }
+        //            minValue = int.MaxValue;
+        //            maxValue = int.MinValue;
+        //            allowedToFilterMinMax = true;
+        //            TimerTICKER_readJackslow.Start();
+        //            timer_oneSecond.Start();
+        //            while (timer_oneSecond.Enabled) { Application.DoEvents(); }
+        //            allowedToFilterMinMax = false;
+        //            TimerTICKER_readJackslow.Stop();
+        //            lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
+        //        }
+        //    }
+        //}
+
+        private async void StartProcess()
+        {
+            for (int power = 0; power < 3; power++)
+            {
+                _ACTIVELEVEL = power;
+                if (power == 0)
+                {
+                    _RAW_DACTOSEND = 0;
+                }
+                else if (power == 1)
+                {
+                    _RAW_DACTOSEND = 2.5;
+                }
+                else if (power == 2)
+                {
+                    _RAW_DACTOSEND = 5.0;
+                }
+
+                await SetPowerLevel();
+                for (int i = 1; i < 17; i++)
+                {
+                    _ACTIVEAIN = i;
+                    await WaitForDataCollection();
+                    lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
+                }
             }
         }
 
-        int Mock_GET_AD_Value(int rowIndex, int columnIndex)
+        private async Task SetPowerLevel()
         {
-            return random.Next(0, 100);  // Return a simulated sensor value
+            timer_powerLevelAdjustment.Start();
+            await Task.Delay(timer_powerLevelAdjustment.Interval);
+            timer_powerLevelAdjustment.Stop();
         }
 
+        private async Task WaitForDataCollection()
+        {
+            minValue = int.MaxValue;
+            maxValue = int.MinValue;
+            allowedToFilterMinMax = true;
+
+            TimerTICKER_readJackslow.Start();
+            timer_oneSecond.Start();
+            await Task.Delay(timer_oneSecond.Interval);
+            TimerTICKER_readJackslow.Stop();
+            timer_oneSecond.Stop();
+            allowedToFilterMinMax = false;
+        }
+
+
+
+
+
+        void _mustUpdate_ComAndLabjack_Status()
+        {
+
+            if (MNGR_SERIAL.Instance.Get_CommIsOpen())
+            {
+                lbl_MBSerialStatus.BackColor = Color.SeaGreen;
+                lbl_MBSerialStatus.Text = "COMM ON";
+                lbl_MBSerialStatus.ForeColor = Color.Black;
+                isConnected_Serial= true;
+                btn_openSerial.Text = "Close it";
+            }
+            else
+            {
+                lbl_MBSerialStatus.BackColor = Color.Salmon;
+                lbl_MBSerialStatus.Text = "COMM OFF";
+                lbl_MBSerialStatus.ForeColor = Color.White;
+                isConnected_Serial = false;
+                btn_openSerial.Text = "Open it";
+            }
+
+            if (MNGR_LABJAK.Instance.GetIsOnBus())
+            {
+                lbl_LabjackStatus.BackColor = Color.SeaGreen;
+                lbl_LabjackStatus.Text = "Labjack ON";
+                lbl_LabjackStatus.ForeColor = Color.Black;
+                isConnected_Labjack = true;
+                btn_openLabjack.Text = "turn off";
+            }
+            else
+            {
+                lbl_LabjackStatus.BackColor = Color.Salmon;
+                lbl_LabjackStatus.Text = "Labjack OFF";
+                lbl_LabjackStatus.ForeColor = Color.White;
+                isConnected_Labjack = false;
+                btn_openLabjack.Text = "turn on";
+            }
+        }
+
+        void _gatherAndSendDataToLabjack() {
+
+            UpdateMux_per_channel(_ACTIVEAIN);
+
+            _MAINLabjackObj.MUXDAC_values[0] = muxbit0 ? 0 : 1;
+            _MAINLabjackObj.MUXDAC_values[1] = muxbit1 ? 0 : 1;
+            _MAINLabjackObj.MUXDAC_values[2] = muxbit2 ? 0 : 1;
+            _MAINLabjackObj.MUXDAC_values[3] = muxbit3 ? 0 : 1;
+            _MAINLabjackObj.MUXDAC_values[4] = _RAW_DACTOSEND;
+            MNGR_LABJAK.Instance.WRITE_to_JACKv2();
+        }
+        void UpdateMux_per_channel(int arg_Channel)
+        {
+            switch (arg_Channel)
+            {
+                case 1:
+
+                    muxbit0 = true;
+                    muxbit1 = true;
+                    muxbit2 = true;
+                    muxbit3 = true;
+                    break;
+                case 2:
+
+                    muxbit0 = false;
+                    muxbit1 = true;
+                    muxbit2 = true;
+                    muxbit3 = true;
+                    break;
+                case 3:
+                    muxbit0 = true;
+                    muxbit1 = false;
+                    muxbit2 = true;
+                    muxbit3 = true;
+                    break;
+                case 4:
+                    muxbit0 = false;
+                    muxbit1 = false;
+                    muxbit2 = true;
+                    muxbit3 = true;
+                    break;
+
+                case 5:
+                    muxbit0 = true;
+                    muxbit1 = true;
+                    muxbit2 = false;
+                    muxbit3 = true;
+                    break;
+
+                case 6:
+                    muxbit0 = false;
+                    muxbit1 = true;
+                    muxbit2 = false;
+                    muxbit3 = true;
+                    break;
+                case 7:
+                    muxbit0 = true;
+                    muxbit1 = false;
+                    muxbit2 = false;
+                    muxbit3 = true;
+                    break;
+                case 8:
+                    muxbit0 = false;
+                    muxbit1 = false;
+                    muxbit2 = false;
+                    muxbit3 = true;
+                    break;
+                case 9:
+                    muxbit0 = true;
+                    muxbit1 = true;
+                    muxbit2 = true;
+                    muxbit3 = false;
+                    break;
+                case 10:
+                    muxbit0 = false;
+                    muxbit1 = true;
+                    muxbit2 = true;
+                    muxbit3 = false;
+                    break;
+                case 11:
+                    muxbit0 = true;
+                    muxbit1 = false;
+                    muxbit2 = true;
+                    muxbit3 = false;
+                    break;
+                case 12:
+                    muxbit0 = false;
+                    muxbit1 = false;
+                    muxbit2 = true;
+                    muxbit3 = false;
+                    break;
+                case 13:
+
+                    muxbit0 = true;
+                    muxbit1 = true;
+                    muxbit2 = false;
+                    muxbit3 = false;
+                    break;
+
+                case 14:
+                    muxbit0 = false;
+                    muxbit1 = true;
+                    muxbit2 = false;
+                    muxbit3 = false;
+                    break;
+                case 15:
+                    muxbit0 = false;
+                    muxbit1 = false;
+                    muxbit2 = false;
+                    muxbit3 = false;
+                    break;
+                case 16:
+                    muxbit0 = true;
+                    muxbit1 = false;
+                    muxbit2 = false;
+                    muxbit3 = false;
+                    break;
+                default:
+                    muxbit0 = true;
+                    muxbit1 = true;
+                    muxbit2 = true;
+                    muxbit3 = true;
+                    break;
+            }
+
+            cb_EIO2.Checked = muxbit0;
+            cb_EIO3.Checked = muxbit1;
+            cb_EIO4.Checked = muxbit2;
+            cb_EIO5.Checked = muxbit3;
+        }
+
+
+        #region MEssageReceived_update ints arra
+        private void Instance_MessageReceived_serial(string message)
+        {
+            try
+            {
+                DateTime currentTime = DateTime.Now;
+                TimeSpan interval = TimeSpan.Zero;
+
+                if (lastReceivedTime != DateTime.MinValue)
+                {
+                    interval = currentTime - lastReceivedTime;
+                }
+                lastReceivedTime = currentTime;
+
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => {
+                        if (!this.IsDisposed)
+                        {
+                            DisplayMessage(message, interval);
+
+                        }
+                    }));
+                }
+                else
+                {
+                    if (!this.IsDisposed)
+                    {
+                        DisplayMessage(message, interval);
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Handle the case where the form or a control is disposed.
+                // This catch is just for extra safety and specific logging if needed.
+            }
+        }
+        private void DisplayMessage(string arg_dollaredBody, TimeSpan arginterval)
+        {
+            lbl_RX.Text = $"{arg_dollaredBody} (Interval: {arginterval.TotalMilliseconds} ms)";
+            DATA_RX.Update_INTarra_FromCommaDelimitedString(arg_dollaredBody);
+            for (int i = 0; i < _lbls_ADOs.Length; i++)
+            {
+                _lbls_ADOs[i].Text = "AD" + i + ": " + _ints_ADOS[i].ToString();
+            }
+        }
+
+        #endregion
+
+        #region buttons com and labjack open cose
+        private void btn_openLabjack_Click(object sender, EventArgs e)
+        {
+            isConnected_Labjack = MNGR_LABJAK.Instance.GetIsOnBus();
+            if (isConnected_Labjack)
+            {
+                MNGR_LABJAK.Instance.Close();
+                btn_openLabjack.Text = "turn on";
+            }
+            else
+            {
+                MNGR_LABJAK.Instance.Init_cONNECTION();
+                MNGR_LABJAK.Instance.Init_dataObj2(_MAINLabjackObj);
+                btn_openLabjack.Text = "turn off";
+            }
+
+        }
+        private void btn_openSerial_Click(object sender, EventArgs e)
+        {
+            isConnected_Serial = MNGR_SERIAL.Instance.Get_CommIsOpen();
+
+            if (isConnected_Serial)
+            {
+
+                btn_openSerial.Text = "Open it";
+                MNGR_SERIAL.Instance.ClosePort();
+            }
+            else
+            {
+                btn_openSerial.Text = "Close it";
+                MNGR_SERIAL.Instance.OpenPortDefault();
+            }
+        }
+
+        #endregion
     }
 }
+
+ 

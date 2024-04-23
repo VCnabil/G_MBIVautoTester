@@ -41,7 +41,7 @@ namespace G_MBIVautoTester.UI.Forms
             MNGR_SERIAL.Instance.MessageReceived += Instance_MessageReceived;
             SERIAL_TIMER_FormSerial.Start();
 
-            MNGR_LABJAK.Instance.Init_dataObj(DATA_LABJAK);
+         //   MNGR_LABJAK.Instance.Init_dataObj(DATA_LABJAK);
 
             cb_cmdDiO_0_led1.CheckedChanged += new EventHandler(a_Dio_cmd_CheckChanged);
             cb_cmdDiO_1_led2.CheckedChanged += new EventHandler(a_Dio_cmd_CheckChanged);
@@ -299,7 +299,7 @@ namespace G_MBIVautoTester.UI.Forms
         {
             // Update your UI control here
             lbl_RX.Text = arg_dollaredBody;  // Assuming lbl_Reception is a label for displaying the message
-            DATA_RX.Update_FromCommaDelimitedString(arg_dollaredBody);
+            DATA_RX.Update_INTarra_FromCommaDelimitedString(arg_dollaredBody);
         }
 
 

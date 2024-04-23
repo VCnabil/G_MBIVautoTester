@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using G_MBIVautoTester._DataObjects;
+using G_MBIVautoTester._DataObjects.DataComm;
 
 namespace G_MBIVautoTester._Globalz
 {
     public class MNGR_LABJAK
     {
         DATA_LABJAK_v1 _lbjkDataObj;
+        DATA_LABJAK_v2 dATA_LABJAK_V2;
         private static readonly Lazy<MNGR_LABJAK> _instance = new Lazy<MNGR_LABJAK>(() => new MNGR_LABJAK());
         public static MNGR_LABJAK Instance
         {
@@ -44,7 +46,7 @@ namespace G_MBIVautoTester._Globalz
             _valueAIN_1 = 0;
             isOnBus = false;
 
-            Initold2();
+            Init_cONNECTION();
         }
         public bool GetIsOnBus()
         {
@@ -62,9 +64,14 @@ namespace G_MBIVautoTester._Globalz
         {
             return _valueAIN_1;
         }
-        public void Init_old()
+        public void Init_cONNECTION()
         {
-            isOnBus = false;
+            if(isOnBus)
+            {
+                return;
+            }
+           
+
             LJM.OpenS("ANY", "ANY", "ANY", ref handle);
             LJM.GetHandleInfo(handle, ref devType, ref conType, ref serNum, ref ipAddr, ref port, ref maxBytesPerMB);
             LJM.NumberToIP(ipAddr, ref ipAddrStr);
@@ -74,19 +81,21 @@ namespace G_MBIVautoTester._Globalz
             StringBuilder strBuilder_connectionInfo = new StringBuilder();
             strBuilder_connectionInfo.Append(Line_label1 + Line_label2 + Line_label3);
             string connectionInfo = strBuilder_connectionInfo.ToString();
-            int errorAddress = 0;
-            int numFrames = 6;
-            string[] names = new string[6] {
-                    "AIN0_NEGATIVE_CH", "AIN0_RANGE", "AIN0_RESOLUTION_INDEX",
-                    "AIN1_NEGATIVE_CH", "AIN1_RANGE", "AIN1_RESOLUTION_INDEX"};
-            double[] aValues = new double[6] { 
-                    199, 10, 0, 
-                    199, 10, 0 };
-            LJM.eWriteNames(handle, numFrames, names, aValues, ref errorAddress);
-            isOnBus = true;
+
+            if (maxBytesPerMB > 1) { 
+                isOnBus = true;
+            }
+            else
+            {
+                isOnBus = false;
+            }
         }
         public void Init_dataObj(DATA_LABJAK_v1 argDataref) {
             _lbjkDataObj = argDataref;
+        }
+        public void Init_dataObj2(DATA_LABJAK_v2 argDataref2)
+        {
+            dATA_LABJAK_V2 = argDataref2;
         }
         void Initold2() {
 
@@ -102,56 +111,21 @@ namespace G_MBIVautoTester._Globalz
             string connectionInfo = strBuilder_connectionInfo.ToString();
 
 
-
-            /*
-             * 
-             *          
-             *          
-            
-            int errorAddress = 0;
-            int numFrames = 39;
-      
-            string[] names = new string[50]
-            {
-
-                    "AIN0_NEGATIVE_CH", "AIN0_RANGE", "AIN0_RESOLUTION_INDEX",
-                    "AIN1_NEGATIVE_CH", "AIN1_RANGE", "AIN1_RESOLUTION_INDEX",
-                    "AIN2_NEGATIVE_CH", "AIN2_RANGE", "AIN2_RESOLUTION_INDEX",
-                    "AIN3_NEGATIVE_CH", "AIN3_RANGE", "AIN3_RESOLUTION_INDEX",
-                    "AIN4_NEGATIVE_CH", "AIN4_RANGE", "AIN4_RESOLUTION_INDEX",
-                    "AIN5_NEGATIVE_CH", "AIN5_RANGE", "AIN5_RESOLUTION_INDEX",
-                    "AIN6_NEGATIVE_CH", "AIN6_RANGE", "AIN6_RESOLUTION_INDEX",
-                    "AIN7_NEGATIVE_CH", "AIN7_RANGE", "AIN7_RESOLUTION_INDEX",
-                    "AIN8_NEGATIVE_CH", "AIN8_RANGE", "AIN8_RESOLUTION_INDEX",
-                    "AIN9_NEGATIVE_CH", "AIN9_RANGE", "AIN9_RESOLUTION_INDEX",
-                    "AIN10_NEGATIVE_CH", "AIN10_RANGE", "AIN10_RESOLUTION_INDEX",
-                    "AIN11_NEGATIVE_CH", "AIN11_RANGE", "AIN11_RESOLUTION_INDEX",
-                    "AIN12_NEGATIVE_CH", "AIN12_RANGE", "AIN12_RESOLUTION_INDEX", "EIO0","EIO1","EIO2","EIO3","EIO4","EIO5","DAC0","FIO0","FIO1","FIO2","FIO3"
-            };
- */
-
-            //double[] aValues = new double[50]
-            //{
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,
-            //    199, 10, 0,0,0,0,0,0,0,0,0,0,0,0
-            //};
-            // LJM.eWriteNames(handle, numFrames, names, aValues, ref errorAddress);
+ 
             isOnBus = true;
         }
 
 
 
+        public void WRITE_to_JACKv2() {
+            if (!isOnBus || dATA_LABJAK_V2 == null)
+            {
+                return;
+            }
+
+            int errorAddress1 = 0;
+            LJM.eWriteNames(handle, dATA_LABJAK_V2.Num_MUXDAC_enries, dATA_LABJAK_V2.MUXDAC_names, dATA_LABJAK_V2.MUXDAC_values, ref errorAddress1);
+        }
 
 
         public void WRITE_to_JACK()

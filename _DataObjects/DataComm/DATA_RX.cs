@@ -626,9 +626,9 @@ namespace G_MBIVautoTester._DataObjects
         }
 
 
- 
-        
-        public void Update_FromCommaDelimitedString(string argBody) {
+        int[] __all_ains ;
+
+        public void Update_INTarra_FromCommaDelimitedString(string argBody) {
             //the argBody  "$VCIA,1.11_Rev5712,4049,4062,4062,4063,4038,4037,4058,4054,4053,4056,4050,4041,4043,4056,4055,4063 ,511,1,6,26,23,46,32,25,23,63"
             //split the string into an array of strings using the comma as the delimiter
             string[] __split = argBody.Split(',');
@@ -663,8 +663,24 @@ namespace G_MBIVautoTester._DataObjects
             _sint_FDBK = Convert.ToInt32(__split[26]);
 
             Set_boolFaults_27(Convert.ToInt32(__split[27]));
-    
 
+            __all_ains[0] = -1;
+            __all_ains[1] = AIN1;
+            __all_ains[2] = AIN2;
+            __all_ains[3] = AIN3;
+            __all_ains[4] = AIN4;
+            __all_ains[5] = AIN5;
+            __all_ains[6] = AIN6;
+            __all_ains[7] = AIN7;
+            __all_ains[8] = AIN8;
+            __all_ains[9] = AIN9;
+            __all_ains[10] = AIN10;
+            __all_ains[11] = AIN11;
+            __all_ains[12] = AIN12;
+            __all_ains[13] = AIN13;
+            __all_ains[14] = AIN14;
+            __all_ains[15] = AIN15;
+            __all_ains[16] = AIN16;
 
         }
 
@@ -712,6 +728,12 @@ namespace G_MBIVautoTester._DataObjects
                     return AIN1;
             }
         }
+
+        public int[] GET_allAINS()
+        {
+           
+            return __all_ains;
+        }
         public DATA_RX()
         {
             _version = "";
@@ -758,6 +780,7 @@ namespace G_MBIVautoTester._DataObjects
             _sb_fault = false;
             _pn_fault = false;
             _sn_fault = false;
+             __all_ains = new int[17];
 
         }
         ~DATA_RX()

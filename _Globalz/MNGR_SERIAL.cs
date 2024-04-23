@@ -48,6 +48,7 @@ namespace G_MBIVautoTester._Globalz
         {
             EventsManagerLib.Call_LogConsole("1. Opening default port");
             if (serialPort.IsOpen) { serialPort.Close();}
+            serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
             incommingDataCounter = 0;
             serialPort.Open();
         }

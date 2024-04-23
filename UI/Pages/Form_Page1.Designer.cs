@@ -1562,33 +1562,33 @@
             this.rb4.Text = "rb4";
             this.rb4.UseVisualStyleBackColor = true;
             // 
-            // rb2_mbAIN3
+            // rb3
             // 
             this.rb3.AutoSize = true;
             this.rb3.Location = new System.Drawing.Point(18, 240);
-            this.rb3.Name = "rb2_mbAIN3";
+            this.rb3.Name = "rb3";
             this.rb3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.rb3.Size = new System.Drawing.Size(74, 29);
             this.rb3.TabIndex = 339;
             this.rb3.Text = "rb2";
             this.rb3.UseVisualStyleBackColor = true;
             // 
-            // rb0_mbAIN1
+            // rb1
             // 
             this.rb1.AutoSize = true;
             this.rb1.Location = new System.Drawing.Point(18, 96);
-            this.rb1.Name = "rb0_mbAIN1";
+            this.rb1.Name = "rb1";
             this.rb1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.rb1.Size = new System.Drawing.Size(74, 29);
             this.rb1.TabIndex = 338;
             this.rb1.Text = "rb0";
             this.rb1.UseVisualStyleBackColor = true;
             // 
-            // rb1_mbAIN2
+            // rb2
             // 
             this.rb2.AutoSize = true;
             this.rb2.Location = new System.Drawing.Point(18, 168);
-            this.rb2.Name = "rb1_mbAIN2";
+            this.rb2.Name = "rb2";
             this.rb2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.rb2.Size = new System.Drawing.Size(74, 29);
             this.rb2.TabIndex = 337;

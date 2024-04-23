@@ -1365,7 +1365,7 @@ namespace G_MBIVautoTester.UI.Pages
         {
             // Update your UI control here
             lbl_RX.Text = arg_dollaredBody;  // Assuming lbl_Reception is a label for displaying the message
-            DATA_RX.Update_FromCommaDelimitedString(arg_dollaredBody);
+            DATA_RX.Update_INTarra_FromCommaDelimitedString(arg_dollaredBody);
         }
 
     }
