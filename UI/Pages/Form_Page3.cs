@@ -48,7 +48,7 @@ namespace G_MBIVautoTester.UI.Pages
         private int _ACTIVELEVEL = 0;
         Label[,] _labels2D_minmax;
         Label[] floatingColumn;
-        int indexFloating = 16;
+        int indexFloating = 8;
         int _minFloating, _maxFloating;
         public Form_Page3()
         {
@@ -64,10 +64,10 @@ namespace G_MBIVautoTester.UI.Pages
 
             TimerTICKER_readJackslow.Interval = 320;
             TimerTICKER_readJackslow.Tick += new EventHandler(TimerTICKER_TickReadSlowLABJACK);
-            timer_delay.Interval = 700;  // 700 ms
+            timer_delay.Interval = 200;  // 700 ms
             timer_delay.Tick += new EventHandler(timer_delay_Tick);
 
-            timer_oneSecond.Interval = 3000;
+            timer_oneSecond.Interval = 1000;
             timer_oneSecond.Tick += new EventHandler(timer_oneSecond_Tick);
 
             timer_powerLevelAdjustment.Interval = 500; // 500 ms for power level adjustment
@@ -184,6 +184,10 @@ namespace G_MBIVautoTester.UI.Pages
                 int value = _ints_ADOS[_ACTIVEAIN];
                 minValue = Math.Min(minValue, value);
                 maxValue = Math.Max(maxValue, value);
+                indexFloating = (_ACTIVEAIN + 6) % 16 + 1;
+                int simulated_floatingValue = DATA_RX.Get_Stored_AINVal(indexFloating);            
+                    _minFloating = Math.Min(_minFloating, simulated_floatingValue);
+                    _maxFloating = Math.Max(_maxFloating, simulated_floatingValue);
             }
         }
 
@@ -204,6 +208,15 @@ namespace G_MBIVautoTester.UI.Pages
 
                     lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
                     _labels2D_minmax[i, _ACTIVELEVEL].Text = $"{minValue}|{maxValue}";
+
+                    if (power == 0)
+                    {
+                       
+                        floatingColumn[indexFloating].Text = $"{_minFloating}|{_maxFloating}"; // Display the floating column values
+
+                      
+                    }
+                                                  
                 }
             }
         }
@@ -212,6 +225,8 @@ namespace G_MBIVautoTester.UI.Pages
         {
             minValue = int.MaxValue; // Reset minimum value
             maxValue = int.MinValue; // Reset maximum value
+            _maxFloating = int.MinValue;
+            _minFloating = int.MaxValue;
             allowedToFilterMinMax = true; // Enable data filtering for new data collection cycle
         }
 
