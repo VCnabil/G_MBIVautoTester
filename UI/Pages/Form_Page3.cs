@@ -193,23 +193,28 @@ namespace G_MBIVautoTester.UI.Pages
             {
                 _ACTIVELEVEL = power;
                 SetPowerValue(power);
-                ResetMinMax();
+
                 for (int i = 1; i < 17; i++)
                 {
                     _ACTIVEAIN = i;
                     ResetMinMax(); // Reset min and max values before starting the data collection
-                    await WaitForDataCollection();
+
+                    await SetPowerLevel();  // Start power level adjustment and wait
+                    await WaitForDataCollection();  // Wait before starting data collection, collect data and process
+
                     lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
                     _labels2D_minmax[i, _ACTIVELEVEL].Text = $"{minValue}|{maxValue}";
                 }
             }
         }
+
         private void ResetMinMax()
         {
             minValue = int.MaxValue; // Reset minimum value
             maxValue = int.MinValue; // Reset maximum value
             allowedToFilterMinMax = true; // Enable data filtering for new data collection cycle
         }
+
         private void SetPowerValue(int powerLevel)
         {
             switch (powerLevel)
@@ -225,43 +230,28 @@ namespace G_MBIVautoTester.UI.Pages
                     break;
             }
         }
+
         private async Task SetPowerLevel()
         {
             timer_powerLevelAdjustment.Start();
-            await Task.Delay(timer_powerLevelAdjustment.Interval);
+            await Task.Delay(timer_powerLevelAdjustment.Interval); // Initial delay after setting power level
             timer_powerLevelAdjustment.Stop();
         }
+
         private async Task WaitForDataCollection()
         {
+            // Optional: Add an additional delay here if needed before starting to collect data
+            await Task.Delay(380); // Wait for an additional 200 ms before starting data collection to ensure system stability
+
             TimerTICKER_readJackslow.Start();
             timer_oneSecond.Start();
-            await Task.Delay(timer_oneSecond.Interval);
+
+            await Task.Delay(timer_oneSecond.Interval); // Delay for the timer interval during which data is collected
+
             TimerTICKER_readJackslow.Stop();
             timer_oneSecond.Stop();
             allowedToFilterMinMax = false;
         }
-        private async Task SetPowerLevel0()
-        {
-            timer_powerLevelAdjustment.Start();
-            await Task.Delay(timer_powerLevelAdjustment.Interval);
-            timer_powerLevelAdjustment.Stop();
-        }
-
-        private async Task WaitForDataCollection0()
-        {
-            minValue = int.MaxValue;
-            maxValue = int.MinValue;
-            allowedToFilterMinMax = true;
-
-            TimerTICKER_readJackslow.Start();
-            timer_oneSecond.Start();
-            await Task.Delay(timer_oneSecond.Interval);
-            TimerTICKER_readJackslow.Stop();
-            timer_oneSecond.Stop();
-            allowedToFilterMinMax = false;
-        }
-
-
 
 
 
@@ -520,75 +510,7 @@ namespace G_MBIVautoTester.UI.Pages
         }
 
         #endregion
-        //private void StartProcess()
-        //{
-        //    for (int power = 0; power < 3; power++)  
-        //    {
-        //        _ACTIVELEVEL = power;
-        //        //   _RAW_DACTOSEND = 2.5;
-
-        //        if (power == 0)
-        //        {
-        //            _RAW_DACTOSEND = 0;
-        //        }
-        //        else if (power == 1)
-        //        {
-        //            _RAW_DACTOSEND = 2.5;
-        //        }
-        //        else
-        //            if (power == 2)
-        //        {
-        //            _RAW_DACTOSEND = 5.0;
-        //        }
-
-        //        timer_powerLevelAdjustment.Start(); 
-        //        while (timer_powerLevelAdjustment.Enabled) { Application.DoEvents(); }  
-        //        for (int i = 1; i < 17; i++)
-        //        {
-        //            _ACTIVEAIN = i;
-        //            timer_delay.Start();
-        //            while (timer_delay.Enabled) { Application.DoEvents(); }
-        //            minValue = int.MaxValue;
-        //            maxValue = int.MinValue;
-        //            allowedToFilterMinMax = true;
-        //            TimerTICKER_readJackslow.Start();
-        //            timer_oneSecond.Start();
-        //            while (timer_oneSecond.Enabled) { Application.DoEvents(); }
-        //            allowedToFilterMinMax = false;
-        //            TimerTICKER_readJackslow.Stop();
-        //            lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
-        //        }
-        //    }
-        //}
-
-        private async void StartProcess0()
-        {
-            for (int power = 0; power < 3; power++)
-            {
-                _ACTIVELEVEL = power;
-                if (power == 0)
-                {
-                    _RAW_DACTOSEND = 0;
-                }
-                else if (power == 1)
-                {
-                    _RAW_DACTOSEND = 2.5;
-                }
-                else if (power == 2)
-                {
-                    _RAW_DACTOSEND = 5.0;
-                }
-
-                await SetPowerLevel();
-                for (int i = 1; i < 17; i++)
-                {
-                    _ACTIVEAIN = i;
-                    await WaitForDataCollection();
-                    lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
-                    _labels2D_minmax[i, _ACTIVELEVEL].Text = $"{minValue}|{maxValue}";
-                }
-            }
-        }
+   
     }
 }
 
