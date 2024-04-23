@@ -46,6 +46,10 @@ namespace G_MBIVautoTester.UI.Pages
         private bool allowedToFilterMinMax = true;
         int minValue, maxValue;
         private int _ACTIVELEVEL = 0;
+        Label[,] _labels2D_minmax;
+        Label[] floatingColumn;
+        int indexFloating = 16;
+        int _minFloating, _maxFloating;
         public Form_Page3()
         {
             InitializeComponent();
@@ -73,6 +77,27 @@ namespace G_MBIVautoTester.UI.Pages
             DATA_RX = new DATA_RX();
             _MAINLabjackObj = new DATA_LABJAK_v2();
             _lbls_ADOs = new Label[] { LBL_AD0, LBL_AD1, LBL_AD2, LBL_AD3, LBL_AD4, LBL_AD5, LBL_AD6, LBL_AD7, LBL_AD8, LBL_AD9, lbl_AD10, lbl_AD11, lbl_AD12, lbl_AD13, lbl_AD14, lbl_AD15, lbl_AD16 };
+            _labels2D_minmax = new Label[,]
+             {
+                { label_0_0, label_0_1, label_0_2 },
+                { label_1_0, label_1_1, label_1_2 },
+                { label_2_0, label_2_1, label_2_2 },
+                { label_3_0, label_3_1, label_3_2 },
+                { label_4_0, label_4_1, label_4_2 },
+                { label_5_0, label_5_1, label_5_2 },
+                { label_6_0, label_6_1, label_6_2 },
+                { label_7_0, label_7_1, label_7_2 },
+                { label_8_0, label_8_1, label_8_2 },
+                { label_9_0, label_9_1, label_9_2 },
+                { label_10_0, label_10_1, label_10_2 },
+                { label_11_0, label_11_1, label_11_2 },
+                { label_12_0, label_12_1, label_12_2 },
+                { label_13_0, label_13_1, label_13_2 },
+                { label_14_0, label_14_1, label_14_2 },
+                { label_15_0, label_15_1, label_15_2 },
+                { label_16_0, label_16_1, label_16_2 }
+             };
+             floatingColumn = new Label[] { label_0_3, label_1_3, label_2_3, label_3_3, label_4_3, label_5_3, label_6_3, label_7_3, label_8_3, label_9_3, label_10_3, label_11_3, label_12_3, label_13_3, label_14_3, label_15_3, label_16_3 };
             _ints_ADOS = DATA_RX.GET_allAINS();
             for (int i = 0; i < _lbls_ADOs.Length; i++)
             {
@@ -219,13 +244,15 @@ namespace G_MBIVautoTester.UI.Pages
                 {
                     _RAW_DACTOSEND = 5.0;
                 }
-
+                minValue = int.MaxValue;
+                maxValue = int.MinValue;
                 await SetPowerLevel();
                 for (int i = 1; i < 17; i++)
                 {
                     _ACTIVEAIN = i;
                     await WaitForDataCollection();
                     lbl_calcMinmax.Text = $"Power Level {_ACTIVELEVEL}, Index {i}: Min={minValue}, Max={maxValue}";
+                    _labels2D_minmax[i, _ACTIVELEVEL].Text = $"{minValue}|{maxValue}";
                 }
             }
         }
